@@ -1,0 +1,64 @@
+// ignore_for_file: constant_identifier_names
+
+import 'dart:ui';
+
+import 'package:get/get.dart';
+import 'package:minia_web_project/binding/user.management.binding.dart';
+import 'package:minia_web_project/main.dart';
+import 'package:minia_web_project/middleware/auth.middleware.dart';
+import 'package:minia_web_project/routes/app_routes.dart';
+import 'package:minia_web_project/routes/pages.dart';
+import 'package:minia_web_project/view/Authentication/pages/reset_pass.dart';
+import 'package:minia_web_project/view/user_management/controller/user.controller.dart';
+import 'package:minia_web_project/view/user_management/screen/user_list.dart';
+import '../binding/home.binding.dart';
+import '../view/Authentication/pages/log_out.dart';
+import '../view/Authentication/pages/login.dart';
+import '../view/Menus/drawer.dart';
+import '../view/dashboard.dart';
+
+class AppPages {
+  AppPages._();
+
+
+  static final routes = [
+    GetPage(
+      name: Paths.myApp,
+      page: () => const MyApp(),
+    ),
+    GetPage(
+      name: AppRoute.sidebar,
+      page: () => const SideBarPage(),
+
+    ),
+    GetPage(
+      name: AppRoute.login,
+      page: () =>  Login(),
+
+    ),
+
+    GetPage(
+      name: AppRoute.USER_LIST_SCREEN,
+      page: () =>  UserListScreen(),
+    ),
+
+
+
+
+
+
+
+
+    //----------------------------//
+    GetPage(
+      name: Paths.resetPassword,
+      page: () => const ResetPassword(),
+    ),
+
+    GetPage(
+      name: Paths.logout,
+      page: () => const Logout(),
+    ),
+
+  ];
+}
