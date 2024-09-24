@@ -27,7 +27,7 @@ class SideBarController extends GetxController {
 
 
 
-  RxInt index = 3.obs;
+  RxInt index = 0.obs;
 
   RxBool isExpanded = true.obs;
 

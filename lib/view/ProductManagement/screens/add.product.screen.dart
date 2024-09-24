@@ -3,7 +3,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:minia_web_project/comman/app.input.dart';
+import 'package:minia_web_project/comman/app_button.dart';
+import 'package:minia_web_project/comman/colors.dart';
 import 'package:minia_web_project/comman/dropdown2.dart';
+import 'package:minia_web_project/controller/product_json.dart';
 
 class AddNewProduct extends StatefulWidget {
   const AddNewProduct({super.key});
@@ -25,22 +28,26 @@ class _AddNewProductState extends State<AddNewProduct> {
 
   ///DropdownButton
 
-  List category = ["category", "category", "category", "category",];
-  List subCategory = ["category", "category", "category", "category",];
-  List vatList = ["category", "category", "category", "category",];
-  List unitList = ["category", "category", "category", "category",];
-  List paysList = ["category", "category", "category", "category",];
+  // List category = ["category", "category", "category", "category",];
+   List subCategory = ["category", "category", "category", "category",];
+  // List vatList = ["category", "category", "category", "category",];
+  // List unitList = ["category", "category", "category", "category",];
+  // List paysList = ["category", "category", "category", "category",];
 
-  String? _caregory;
+
+  //Countries dropdown
+
+  String? _description;
   String? _subCaregory;
-  String? _vatList;
-  String? _pays;
-  String? _unitList;
+  String? _tva;
+  String? _countries;
+  String? _productType;
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
+
       padding: const EdgeInsets.all(20),
       child: SingleChildScrollView(
         child: Column(
@@ -91,17 +98,14 @@ class _AddNewProductState extends State<AddNewProduct> {
 
                             const SizedBox(height: 20,),
 
-                            const Text(
-                              "Fiche Produit",
+                            const Text("Fiche Produit",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 13,
                                   color: Colors.black),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            AppInput(controller: _name, hint: "Product name"),
+                            const SizedBox(height: 5,),
+                            AppInput(controller: _name, hint: "Nom du Produit"),
 
 
 
@@ -120,50 +124,11 @@ class _AddNewProductState extends State<AddNewProduct> {
                             const SizedBox(height: 5,),
 
                             //short description Dropdown
-
-                            DropDown2(items: category, hint: "Conditionnement", onChange: (v){setState(() {
-                              _caregory = v;
+                            DropDown2(
+                                items: ProductJson.descriptionList, hint: "Conditionnement", onChange: (v){setState(() {
+                              _description = v;
                             });}),
-                            // DropdownButtonHideUnderline(
-                            //   child: DropdownButton2<String>(
-                            //     isExpanded: true,
-                            //     hint: Text(
-                            //       'Conditionnement',
-                            //       style: TextStyle(
-                            //         fontSize: 14,
-                            //         color: Theme.of(context).hintColor,
-                            //       ),
-                            //     ),
-                            //     items: category
-                            //         .map((item) => DropdownMenuItem<String>(
-                            //               value: item,
-                            //               child: Text(
-                            //                 item,
-                            //                 style: const TextStyle(
-                            //                   fontSize: 14,
-                            //                 ),
-                            //               ),
-                            //             ))
-                            //         .toList(),
-                            //     value: _caregory,
-                            //     onChanged: (String? value) {
-                            //       setState(() {
-                            //         _caregory = value;
-                            //       });
-                            //     },
-                            //     buttonStyleData: ButtonStyleData(
-                            //         padding: const EdgeInsets.symmetric(
-                            //             horizontal: 16),
-                            //         height: 40,
-                            //         width: double.infinity,
-                            //         decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(5),
-                            //             border: Border.all(width: 1, color: Colors.grey.shade200))),
-                            //     menuItemStyleData: const MenuItemStyleData(
-                            //       height: 40,
-                            //     ),
-                            //   ),
-                            // ),
+
 
                             const SizedBox(
                               height: 10,
@@ -175,10 +140,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                   fontSize: 13,
                                   color: Colors.black),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-
+                            const SizedBox(height: 5,),
                             AppInput(
                               hint: "Une description longue de votre produit (min 200 caractères)",
                               controller: _longDescription,
@@ -189,18 +151,12 @@ class _AddNewProductState extends State<AddNewProduct> {
                             ),
 
                             //unit field
-                           const Text(
-                              "Poids en Kg, Contenance en L ou Unité",
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
+                           const Text("Poids en Kg, Contenance en L ou Unité",
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400,
                                   color: Colors.black),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5,),
                             AppInput(hint: "Unit", controller: _unit),
-                            //AppInputField(controller: _unit, hintText: "Unit",),
                             const SizedBox(
                               height: 10,
                             ),
@@ -228,54 +184,14 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      DropdownButtonHideUnderline(
-                                        child: DropdownButton2<String>(
-                                          isExpanded: true,
-                                          hint: Text(
-                                            'Choisir',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                            ),
-                                          ),
-                                          items: unitList
-                                              .map((item) =>
-                                                  DropdownMenuItem<String>(
-                                                    value: item,
-                                                    child: Text(
-                                                      item,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                          value: _unitList,
-                                          onChanged: (String? value) {
-                                            setState(() {
-                                              _unitList = value;
+                                      DropDown2(
+                                          items: ProductJson.productTypeList,
+                                          hint: "Choisir",
+                                          onChange: (v){
+                                            setState(() {_productType = v;
                                             });
-                                          },
-                                          buttonStyleData: ButtonStyleData(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16),
-                                              height: 40,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: Colors
-                                                          .grey.shade200))),
-                                          menuItemStyleData:
-                                              const MenuItemStyleData(
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
+                                          }),
+
                                     ],
                                   )),
 
@@ -302,15 +218,13 @@ class _AddNewProductState extends State<AddNewProduct> {
                                         height: 5,
                                       ),
                                       AppInput(hint: "1000", controller: _inStock),
-                                      //AppInputField(controller: _inStock, hintText: "1000", maxLine: 1,),
+
                                     ],
                                   )),
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5,),
                             SizedBox(
                               height: 85,
                               child: Row(
@@ -337,55 +251,7 @@ class _AddNewProductState extends State<AddNewProduct> {
 
                                       //Country List
 
-                                      DropdownButtonHideUnderline(
-                                        child: DropdownButton2<String>(
-                                          isExpanded: true,
-                                          hint: Text(
-                                            'Pays',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                            ),
-                                          ),
-                                          items: paysList
-                                              .map((item) =>
-                                                  DropdownMenuItem<String>(
-                                                    value: item,
-                                                    child: Text(
-                                                      item,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                          value: _pays,
-                                          onChanged: (String? value) {
-                                            setState(() {
-                                              _pays = value;
-                                            });
-                                          },
-                                          buttonStyleData: ButtonStyleData(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16),
-                                              height: 40,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: Colors
-                                                          .grey.shade200))),
-                                          menuItemStyleData:
-                                              const MenuItemStyleData(
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
-                                      //AppInputField(controller: _country, hintText: "Pays", maxLine: 1,),
+                                      DropDown2(items: ProductJson.allCountry, hint: "Pays", onChange: (v){setState(() {_countries = v;});}),
                                     ],
                                   )),
                                   const SizedBox(
@@ -412,76 +278,22 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      DropdownButtonHideUnderline(
-                                        child: DropdownButton2<String>(
-                                          isExpanded: true,
-                                          hint: Text(
-                                            '0.0 %',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                            ),
-                                          ),
+                                      DropDown2(items: ProductJson.tvas, hint:" 0.0 %", onChange: (v){setState(() {_tva = v;});}),
 
-                                          ///TODO:Check Country List
-                                          items: vatList
-                                              .map((item) =>
-                                                  DropdownMenuItem<String>(
-                                                    value: item,
-                                                    child: Text(
-                                                      item,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                          value: _vatList,
-                                          onChanged: (String? value) {
-                                            setState(() {
-                                              _vatList = value;
-                                            });
-                                          },
-                                          buttonStyleData: ButtonStyleData(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16),
-                                              height: 40,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: Colors
-                                                          .grey.shade200))),
-                                          menuItemStyleData:
-                                              const MenuItemStyleData(
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
-
-                                      // AppInput(hint: "0.0 %", controller: _tax),
                                     ],
                                   )),
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10,),
                             const Text(
-                              "Images produits",
+                              "Images products",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 13,
                                   color: Colors.black),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5,),
                             Container(
                                 width: double.infinity,
                                 height: 120,
@@ -497,7 +309,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       child: Container(
                                         width: 100,
                                         height: 100,
-                                        margin: EdgeInsets.all(10),
+                                        margin:const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -671,8 +483,8 @@ class _AddNewProductState extends State<AddNewProduct> {
                                            const SizedBox(
                                               height: 5,
                                             ),
-                                            AppInput(hint: "Prix", controller: _regularPrice,readOnly: true,),
-                                            //AppInputField(controller: _regularPrice, hintText: "Prix Restaurants", readOnly:  true,),
+                                            AppInput(hint: "Prix Restaurants", controller: _regularPrice,readOnly: true,),
+
                                           ],
                                         ),
                                       ),
@@ -736,101 +548,58 @@ class _AddNewProductState extends State<AddNewProduct> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
+                            const SizedBox(height: 20,),
+
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: Colors.grey.shade200),
+                                  border: Border.all(width: 1, color: Colors.grey.shade200),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+
                                   const Text(
                                       "Choisir une ou Plusieurs Catégories",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15,
                                           color: Colors.black)),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
+
+                                  const SizedBox(height: 20,),
+
+                                  //select Category
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: (){
+                                      selectCategoryMethod();
+                                    },
                                     child: Container(
-                                      width: double.infinity,
-                                      //height: 40,
+
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
-                                        //color: Colors.grey.shade200,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            width: 1,
-                                            color: Colors.grey.shade200),
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Colors.grey.shade200),
+                                        color: Colors.white,
                                       ),
-                                      child: const Text(
-                                        'name',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                        ),
+                                      child:const Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Select Category",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.grey),),
+                                          Icon(Icons.arrow_drop_down,color: Colors.grey,)
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  DropdownButtonHideUnderline(
-                                    child: DropdownButton2<String>(
-                                      isExpanded: true,
-                                      hint: Text(
-                                        'Sous Catégorie',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                      ),
-                                      items: subCategory
-                                          .map((item) =>
-                                              DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text("",
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ))
-                                          .toList(),
-                                      value: _subCaregory,
-                                      onChanged: (String? value) {
-                                        setState(() {
-                                          _subCaregory = value;
-                                        });
-                                      },
-                                      buttonStyleData: ButtonStyleData(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          height: 40,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.grey.shade200))),
-                                      menuItemStyleData:
-                                          const MenuItemStyleData(
-                                        height: 40,
-                                      ),
-                                    ),
-                                  ),
-                                 const SizedBox(
-                                    height: 10,
-                                  ),
+
+
+                                  const SizedBox(height: 20,),
+
+                                  ///Sub Category
+                                  DropDown2(items: subCategory, hint: "Sub Category", onChange: (v){setState(() {_subCaregory = v;});}),
+                                 const SizedBox(height: 10,),
+
                                   // ListView.builder(
                                   //   physics:const NeverScrollableScrollPhysics(),
                                   //   shrinkWrap: true,
@@ -855,9 +624,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
+                            const SizedBox(height: 20,),
                           ],
                         ),
                       ),
@@ -868,25 +635,9 @@ class _AddNewProductState extends State<AddNewProduct> {
 
              //add Product button
              const SizedBox(height: 30,),
-              InkWell(
-                onTap: (){},
 
-                child: Container(
-                  width: 200,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child:const Center(child:  Text("Add Product",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
-                    ),
-                  ),),
-                ),
-              )
+              AppButton(onClick: (){}, text: "Add Product"),
+
             ],
 
         ),
@@ -894,5 +645,49 @@ class _AddNewProductState extends State<AddNewProduct> {
     );
   }
 
+  selectCategoryMethod(){
+    return showDialog(
+        barrierDismissible: true,
+
+        context: context, builder: (BuildContext context){
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        contentPadding: EdgeInsets.zero,
+        title: const Text("Select Category",style: TextStyle(fontWeight: FontWeight.w500,color: Colors.black,fontSize: 15),),
+        content: Container(
+          height:500,
+          width: 300,
+          child: ListView.builder(
+              itemCount: 100,
+              itemBuilder: (context,index){
+                return  Container(
+                  margin:const  EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColor.borders)
+                  ),
+                  child: ListTile(
+                    onTap: (){},
+                    contentPadding: const EdgeInsets.only(left: 10),
+                    title: Text("Category"),
+                    leading:Icon(Icons.ac_unit_sharp),
+                  ),
+                );
+              }),
+        ),
+        actions: [
+          TextButton(onPressed: ()=>Navigator.pop(context), child:const Text("Cancel"))
+        ],
+
+      );
+    });
+  }
 
 }
+
+
+
+
+

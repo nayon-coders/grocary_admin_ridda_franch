@@ -7,6 +7,7 @@ import 'package:minia_web_project/comman/title_text.dart';
 import 'package:minia_web_project/utility/app.assets.dart';
 
 import '../../../comman/app.input.dart';
+import '../../../comman/colors.dart';
 
 class AddNewCategory extends StatefulWidget {
   const AddNewCategory({super.key});
@@ -22,6 +23,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Container(
+
       width: size.width,
       padding: const EdgeInsets.all(20),
       child: SingleChildScrollView(
@@ -97,7 +99,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                         //add sub category
                         Container(
                           width: 350,
-                          height: 350,
+                          height: 400,
                           margin:const EdgeInsets.only(bottom: 20),
                           padding:const EdgeInsets.all(20),
                           decoration: BoxDecoration(
@@ -111,6 +113,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                               const Text("Add New Category",style: TextStyle(fontWeight: FontWeight.w600,fontSize:16,color: Colors.black ),),
                               const SizedBox(height: 20,),
 
+                              //select image
                               InkWell(
                                 onTap: (){},
                                 child: Container(
@@ -126,20 +129,20 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10,),
-                              Expanded(
-                                child: AppInput(
-                                  controller: _subCategoryName,
-                                  hint: "SubCategory Name",
-                                ),
+                              const SizedBox(height: 20,),
+
+                              //Sub category name
+                              AppInput(
+                                controller: _subCategoryName,
+                                hint: "SubCategory Name",
                               ),
-                             const SizedBox(height: 10,),
-                              Expanded(
-                                child: AppInput(
-                                  controller: _categoryName,
-                                  hint: "Select Category",
-                                  readOnly: true,
-                                ),
+                             const SizedBox(height: 20,),
+
+                              //category name
+                              AppInput(
+                                controller: _categoryName,
+                                hint: "Select Category",
+                                readOnly: true,
                               ),
 
                               const SizedBox(height: 20,),
@@ -183,87 +186,101 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                                   padding:const EdgeInsets.all(10),
                                   decoration:BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.grey.shade100,
+                                    border: Border.all(color: AppColor.borders)
+                                    //color: Colors.grey.shade100,
                                   ),
                                   child:  Column(
                                     children: [
     
                                       ///category name
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                             Image.asset("assets/image/avatar.png",height: 50,width: 50,fit: BoxFit.cover,),
-    
-                                              const SizedBox(width: 10,),
-    
-                                              Text("Category Name",
-                                                style:const TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 15,
-                                                    color: Colors.black),
-                                              ),
-    
-    
-    
-    
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 40,width: 110,
-                                            child: Row(
-                                              children: [
-                                                IconButton(onPressed: (){}, icon:const Icon(Icons.edit,color: Colors.amber,size: 20,)),
-                                                IconButton(onPressed: (){}, icon:const Icon(Icons.delete,color: Colors.red,size: 20,)),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-    
-    
-    
-                                      ///sub category name image
-                                     const SizedBox(height: 15,),
                                       Container(
-                                        height: 50,
-                                        margin:const EdgeInsets.only(left: 40,bottom: 5),
-                                        padding:const EdgeInsets.only(left: 10,right: 10),
                                         decoration: BoxDecoration(
-                                          color: Colors.grey.shade50,
                                           borderRadius: BorderRadius.circular(10),
+                                          color: Colors.grey.shade200,
                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
-                                                Image.asset("assets/image/avatar.png",height: 40,width: 40,),
-                                                SizedBox(width: 10,),
-                                                Text("sub category name",
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 14
-                                                  ),
-                                                )
+                                               Image.asset("assets/image/avatar.png",height: 50,width: 50,fit: BoxFit.cover,),
+
+                                                const SizedBox(width: 10,),
+
+                                                Text("Category Name",
+                                                  style:const TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 15,
+                                                      color: Colors.black),
+                                                ),
+
+
                                               ],
                                             ),
                                             SizedBox(
-                                              width: 50,
-                                              height: 40,
+                                              height: 40,width: 110,
                                               child: Row(
                                                 children: [
-                                                  IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: Colors.red, size: 20,)),
+                                                  IconButton(onPressed: (){}, icon:const Icon(Icons.edit,color: Colors.amber,size: 20,)),
+                                                  IconButton(onPressed: (){}, icon:const Icon(Icons.delete,color: Colors.red,size: 20,)),
                                                 ],
                                               ),
-                                            )
-    
-    
+                                            ),
                                           ],
                                         ),
+                                      ),
     
-                                      )
+    
+    
+                                      ///sub category name image
+                                     const SizedBox(height: 15,),
+                                      SizedBox(
+                                        child: ListView.builder(
+                                            physics:const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                          itemCount: 4,
+                                            itemBuilder: (context,index){
+                                          return Container(
+                                            height: 50,
+                                            margin:const EdgeInsets.only(left: 40,bottom: 5),
+                                            padding:const EdgeInsets.only(left: 10,right: 10),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade50,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.asset("assets/image/avatar.png",height: 40,width: 40,),
+                                                    SizedBox(width: 10,),
+                                                    Text("sub category name",
+                                                      style: TextStyle(
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 14
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: 50,
+                                                  height: 40,
+                                                  child: Row(
+                                                    children: [
+                                                      IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: Colors.red, size: 20,)),
+                                                    ],
+                                                  ),
+                                                )
+
+
+                                              ],
+                                            ),
+
+                                          );
+                                        }),
+                                      ),
+
                                     ],
                                   ),
                                 );

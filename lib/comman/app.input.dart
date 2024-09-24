@@ -38,23 +38,20 @@ class AppInput extends StatelessWidget {
       autocorrect: true,
       decoration: InputDecoration(
         isDense: true,
-        // fillColor: AppColor.mainbackground,
         hintText: hint,
         hintStyle: const TextStyle(
             color: AppColor.hintcolor,
             fontSize: 14,
             fontWeight: FontWeight.w400),
-        // filled: true,
-        // fillColor: AppColor.boxborder.withOpacity(.50),
         // fillColor: AppColor.lightwhite.withOpacity(.25),
         // contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:const BorderSide(color: AppColor.borders, width: 1),
+          borderSide:const BorderSide(color: AppColor.borders,),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:const BorderSide(color: AppColor.borders, width: 1),
+          borderSide:const BorderSide(color: AppColor.borders,),
         ),
       ),
     );

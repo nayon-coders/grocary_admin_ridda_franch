@@ -14,6 +14,7 @@ class DropDown2<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2<T>(
+
       style:const TextStyle(color: AppColor.hintcolor,
           fontSize: 14,
           fontWeight: FontWeight.w400),
@@ -33,6 +34,7 @@ class DropDown2<T> extends StatelessWidget {
           borderSide:const BorderSide(color: AppColor.borders, width: 1),
         ),
         border:  OutlineInputBorder(
+
           borderRadius: BorderRadius.circular(10),
           borderSide:const BorderSide(color: AppColor.borders, width: 1),
         ),

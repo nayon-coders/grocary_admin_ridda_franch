@@ -15,7 +15,7 @@ class _AllProductsState extends State<AllProducts> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey.shade50,
+      //color: Colors.grey.shade50,
       padding:const EdgeInsets.all(20),
       child: Container(
         child: AppTable(
@@ -50,7 +50,7 @@ class _AllProductsState extends State<AllProducts> {
                   margin:const EdgeInsets.only(bottom:5,top: 5),
                   padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
                   decoration: BoxDecoration(
-                    color:index.isEven?Colors.grey.shade200: Colors.white,
+                    color:Colors.grey.shade200,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

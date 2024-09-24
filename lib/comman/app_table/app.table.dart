@@ -156,7 +156,7 @@ class AppTable extends StatelessWidget {
                     decoration: InputDecoration(
                         contentPadding:const EdgeInsets.only(left: 15, right: 15),
                         hintText: "Search by Order ID",
-                        fillColor: Colors.white,
+                        fillColor: Colors.grey.shade200,
                         hintStyle:const TextStyle(
                             fontSize: 12
                         ),
@@ -204,6 +204,7 @@ class AppTable extends StatelessWidget {
           height: 50,
           padding:const EdgeInsets.only(left: 20, right: 20,),
           decoration: BoxDecoration(
+
               color: headerBg
           ),
           child: Row(

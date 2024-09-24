@@ -16,6 +16,7 @@ class _AddPostCodeState extends State<AddPostCode> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       width: double.infinity,
       margin: EdgeInsets.only(left: 100, right: 100),
       decoration: BoxDecoration(
