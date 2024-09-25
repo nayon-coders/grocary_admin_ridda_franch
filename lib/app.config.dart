@@ -8,10 +8,16 @@ class AppConfig{
   static const String BASE_URL = "$DOMAIN_URL/$API";
 
   static const String LOGIN = "$BASE_URL/admin/login";
-  static const String ADMIN_INFO = "$BASE_URL/admin/me";
-  static const String ALL_USERS = "$BASE_URL/users/all";
-  static const String COIN_PRICE = "$BASE_URL/dashboard/coin-price";
-  static const String TOTAL_COIN = "$BASE_URL/dashboard/total-coins";
-  static const String UPDATE_COIN_PRICE = "$BASE_URL/dashboard/coin-price";
+
+  //product
+  static const String PRODUCT_GET = "$BASE_URL/product/all";
+  static const String PRODUCT_ADD = "$BASE_URL/product/create";
+  static const String PRODUCT_UPDATE = "$BASE_URL/product/update/";
+  static const String PRODUCT_DELETE = "$BASE_URL/product/delete/";
+  static const String PRODUCT_SINGLE = "$BASE_URL/product/";
+  static const String POST_CODER_CREATE = "$BASE_URL/product/post-code";
+  static const String POST_CODE_DELETE = "$BASE_URL/product/post-code/";
+  static const String POST_CODE_GET = "$BASE_URL/product/post-code";
+
 
 }

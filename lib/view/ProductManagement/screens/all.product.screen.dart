@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:minia_web_project/comman/app_table/app.table.dart';
+import 'package:minia_web_project/view/ProductManagement/controller/product.controller.dart';
 
 import '../../../comman/app_table/table.header.dart';
 
@@ -12,6 +14,9 @@ class AllProducts extends StatefulWidget {
 
 class _AllProductsState extends State<AllProducts> {
   final _searchController = TextEditingController();
+
+  ProductController productController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -12,7 +12,6 @@ class AppUserController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getUserList();
   }
 
   @override
@@ -34,12 +33,5 @@ class AppUserController extends GetxController{
   Rx<UserListModel> userListModel = UserListModel().obs;
 
 
-  //get user list
-  getUserList()async{
-    isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.ALL_USERS);
-    userListModel.value = UserListModel.fromJson(jsonDecode(res.body));
-    isLoading.value = false;
-  }
 
 }
