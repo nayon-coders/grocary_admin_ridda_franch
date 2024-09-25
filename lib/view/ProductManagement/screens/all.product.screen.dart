@@ -60,43 +60,88 @@ class _AllProductsState extends State<AllProducts> {
 
 
                       //Id
-                      TableHeader(name:"${index+1}", width: 50),
+
+                      SizedBox(
+                          width: 50,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("${index+1}",style:const TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //Name
-                      TableHeader(name: "product name ", width: 200),
+
+                      SizedBox(
+                          width: 200,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("product name",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
 
                       //Stock
-                      TableHeader(name: "${index+2}", width: 80),
+
+                      SizedBox(
+                          width: 80,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("${index+2}",style:const  TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //Purchase Price
-                      TableHeader(name: "Purchase Price", width: 80),
+
+                      SizedBox(
+                          width: 80,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Purchase Price",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
                       
 
 
                       //Retailer Price
-                      TableHeader(name: "Retailer Price", width: 80),
+
+                      SizedBox(
+                          width: 80,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Retailer Price",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
 
 
                       //Whole Sell
-                      TableHeader(name: "Whole Sell", width: 90),
+
+                      SizedBox(
+                          width: 90,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Whole Sell",style:const  TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
 
                     //Seller Price
-                      TableHeader(name: "Seller Price", width: 90),
+
+                      SizedBox(
+                          width: 90,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Seller Price",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
                     //Status
-                      TableHeader(name: "Active", width: 80),
+
+                      SizedBox(
+                          width: 80,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Active",style:const  TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                     //DateTime
-                      TableHeader(name: "22/10/2024", width: 90),
+
+                      SizedBox(
+                          width: 90,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("22/10/2024",style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //Action button

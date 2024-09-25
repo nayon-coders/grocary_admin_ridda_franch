@@ -56,15 +56,30 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
 
 
                     //Id
-                    TableHeader(name:"${index+1908}", width:120),
+
+                    SizedBox(
+                        width: 120,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("${index+1908}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                     //Payment Method
-                    TableHeader(name: "Payment Method", width: 120),
+
+                    SizedBox(
+                        width: 120,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Payment Method",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                     //Delivery Address
-                    TableHeader(name: "Delivery Address ", width: 150),
+
+                    SizedBox(
+                        width: 150,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Delivery Address",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                     //status
@@ -89,7 +104,12 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                     ),
 
                     //Date Time
-                    TableHeader(name: "Date Time ", width: 120),
+
+                    SizedBox(
+                        width: 120,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Date Time",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                     //Action button

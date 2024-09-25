@@ -58,20 +58,40 @@ class _AllOrderListState extends State<AllOrderList> {
 
 
                       //Id
-                      TableHeader(name:"${index+1}", width: 30),
+
+                      SizedBox(
+                          width: 30,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("${index+1}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //Company Name
-                      TableHeader(name: "company name ", width: 150),
+
+                      SizedBox(
+                          width: 150,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("company name",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
 
                       //Payment Method
-                      TableHeader(name: "Payment Method", width: 120),
+
+                      SizedBox(
+                          width: 120,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Payment Method",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //Delivery Address
-                      TableHeader(name: "Delivery Address ", width: 120),
+
+                      SizedBox(
+                          width: 120,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Delivery Address",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //status
@@ -96,7 +116,12 @@ class _AllOrderListState extends State<AllOrderList> {
                       ),
 
                       //Date Time
-                      TableHeader(name: "Date Time ", width: 120),
+
+                      SizedBox(
+                          width: 120,
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Date Time",style:const  TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),))),
 
 
                       //Action button
