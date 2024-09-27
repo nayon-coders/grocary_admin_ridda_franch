@@ -2,11 +2,17 @@
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:minia_web_project/comman/app.input.dart';
 import 'package:minia_web_project/comman/app_button.dart';
 import 'package:minia_web_project/comman/colors.dart';
 import 'package:minia_web_project/comman/dropdown2.dart';
+import 'package:minia_web_project/controller/firebase.image.controller.dart';
 import 'package:minia_web_project/controller/product_json.dart';
+import 'package:minia_web_project/view/ProductManagement/controller/category.controller.dart';
+import 'package:minia_web_project/view/ProductManagement/controller/product.controller.dart';
+
+import '../../../data/model/main.category.model.dart';
 
 class AddNewProduct extends StatefulWidget {
   const AddNewProduct({super.key});
@@ -16,26 +22,21 @@ class AddNewProduct extends StatefulWidget {
 }
 
 class _AddNewProductState extends State<AddNewProduct> {
-  final _name = TextEditingController();
-  final _unit = TextEditingController();
-  final _longDescription = TextEditingController();
-  final _regularPrice = TextEditingController();
-  final _wholeSellPrice = TextEditingController();
-  final _sellerPrice = TextEditingController();
-  final _perchasePrice = TextEditingController();
-  final _discountPrice = TextEditingController();
-  final _inStock = TextEditingController();
+
+  CategoryController _categoryController = Get.find<CategoryController>();
+  ProductController _productController = Get.find<ProductController>();
 
   ///DropdownButton
 
-  // List category = ["category", "category", "category", "category",];
-   List subCategory = ["category", "category", "category", "category",];
-  // List vatList = ["category", "category", "category", "category",];
-  // List unitList = ["category", "category", "category", "category",];
-  // List paysList = ["category", "category", "category", "category",];
 
+  List images = [];
+  //store image
+  uploadImage(file){
+    setState(() {
+      images.add(file);
+    });
+  }
 
-  //Countries dropdown
 
   String? _description;
   String? _subCaregory;
@@ -43,6 +44,12 @@ class _AddNewProductState extends State<AddNewProduct> {
   String? _countries;
   String? _productType;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _categoryController.getMainCategory();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +112,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                   color: Colors.black),
                             ),
                             const SizedBox(height: 5,),
-                            AppInput(controller: _name, hint: "Nom du Produit"),
+                            AppInput(controller: _productController.productName.value, hint: "Nom du Produit"),
 
 
 
@@ -126,7 +133,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                             //short description Dropdown
                             DropDown2(
                                 items: ProductJson.descriptionList, hint: "Conditionnement", onChange: (v){setState(() {
-                              _description = v;
+                              _productController.productShortDes.value.text = v!;
                             });}),
 
 
@@ -143,7 +150,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                             const SizedBox(height: 5,),
                             AppInput(
                               hint: "Une description longue de votre produit (min 200 caractères)",
-                              controller: _longDescription,
+                              controller: _productController.productDes.value,
                               maxLine: 6,
                             ),
                             const SizedBox(
@@ -156,7 +163,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                   color: Colors.black),
                             ),
                             const SizedBox(height: 5,),
-                            AppInput(hint: "Unit", controller: _unit),
+                            AppInput(hint: "Unit", controller: _productController.productUnit.value),
                             const SizedBox(
                               height: 10,
                             ),
@@ -188,7 +195,8 @@ class _AddNewProductState extends State<AddNewProduct> {
                                           items: ProductJson.productTypeList,
                                           hint: "Choisir",
                                           onChange: (v){
-                                            setState(() {_productType = v;
+                                            setState(() {
+                                              _productController.productType.value = v!;
                                             });
                                           }),
 
@@ -217,7 +225,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      AppInput(hint: "1000", controller: _inStock),
+                                      AppInput(hint: "1000", controller: _productController.productStock.value),
 
                                     ],
                                   )),
@@ -251,7 +259,14 @@ class _AddNewProductState extends State<AddNewProduct> {
 
                                       //Country List
 
-                                      DropDown2(items: ProductJson.allCountry, hint: "Pays", onChange: (v){setState(() {_countries = v;});}),
+                                      DropDown2(
+                                          items: ProductJson.allCountry,
+                                          hint: "Origin",
+                                          onChange: (v){
+                                            setState(() {
+                                              _productController.country.value = v!;
+                                            });
+                                          }),
                                     ],
                                   )),
                                   const SizedBox(
@@ -278,7 +293,13 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      DropDown2(items: ProductJson.tvas, hint:" 0.0 %", onChange: (v){setState(() {_tva = v;});}),
+                                      DropDown2(
+                                          items: ProductJson.tvas, 
+                                          hint:" 0.0 %", 
+                                          onChange: (v){
+                                            _productController.tax.value = v!; 
+                                          }
+                                          ),
 
                                     ],
                                   )),
@@ -305,14 +326,16 @@ class _AddNewProductState extends State<AddNewProduct> {
                                 child: Row(
                                   children: [
                                     InkWell(
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        await FirebaseImageController.startWebFilePicker(uploadImage);
+                                      },
                                       child: Container(
                                         width: 100,
                                         height: 100,
                                         margin:const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             border: Border.all(
                                                 width: 1, color: Colors.green)),
                                         child: const Center(
@@ -325,53 +348,59 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       ),
                                     ),
 
-                                    // Expanded(
-                                    //   child: ListView.builder(
-                                    //     itemCount: 1,
-                                    //     scrollDirection: Axis.horizontal,
-                                    //     itemBuilder: (_, index) {
-                                    //       return Stack(
-                                    //         children: [
-                                    //           Container(
-                                    //             width: 100,
-                                    //             height: 100,
-                                    //             margin:
-                                    //                 const EdgeInsets.all(10),
-                                    //             decoration: BoxDecoration(
-                                    //                 borderRadius:
-                                    //                     BorderRadius.circular(
-                                    //                         10),
-                                    //                 border: Border.all(
-                                    //                     width: 1,
-                                    //                     color: Colors.green)),
-                                    //             child: Center(),
-                                    //           ),
-                                    //           Positioned(
-                                    //             right: 15,
-                                    //             top: 15,
-                                    //             child: Container(
-                                    //               decoration: BoxDecoration(
-                                    //                   color: Colors.white,
-                                    //                   borderRadius:
-                                    //                       BorderRadius.circular(
-                                    //                           100)),
-                                    //               child: IconButton(
-                                    //                   onPressed: () {
-                                    //                     setState(() {});
-                                    //                   },
-                                    //                   icon: Icon(
-                                    //                     Icons.delete,
-                                    //                     color: Colors.red,
-                                    //                   )),
-                                    //             ),
-                                    //           )
-                                    //         ],
-                                    //       );
-                                    //     },
-                                    //   ),
-                                    // )
+                                    images.isEmpty ? Center() : Expanded(
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: images.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (_, index) {
+                                          var data = images[index];
+                                          return Stack(
+                                            children: [
+                                              Container(
+                                                width: 100,
+                                                height: 100,
+                                                margin:
+                                                const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        10),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: Colors.green)),
+                                                child: Image.memory(data!, fit: BoxFit.cover,),
+                                              ),
+                                              Positioned(
+                                                right: 15,
+                                                top: 15,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                                  child: IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          images.removeAt(index);
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.delete,
+                                                        color: Colors.red,
+                                                      )),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    )
                                   ],
-                                ))
+                                )
+                            )
                           ],
                         ),
                       ),
@@ -435,7 +464,16 @@ class _AddNewProductState extends State<AddNewProduct> {
                                           height: 5,
                                         ),
 
-                                        AppInput(hint: "Prix d'achat ht", controller: _perchasePrice)
+                                        AppInput(
+                                            textType: TextInputType.number,
+                                            hint: "Prix d'achat ht",
+                                            controller: _productController.productPurchasePrice.value,
+                                            onChanged: (v){
+                                              _productController.restaurantPrice.value.text = ((double.parse(v) / 100) * 42 + double.parse(v)).toStringAsFixed(2);
+                                              _productController.resellerPrice.value.text = ((double.parse(v) / 100) * 25 + double.parse(v)).toStringAsFixed(2);
+                                              _productController.wholesalersPrice.value.text = ((double.parse(v) / 100) * 15 + double.parse(v)).toStringAsFixed(2);
+                                            },
+                                        )
                                       ],
                                     ),
                                   ),
@@ -459,7 +497,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                                   color: Colors.black),
                                             ),
                                            const SizedBox(height: 5,),
-                                            AppInput(hint: "Prix Revendeurs", controller: _sellerPrice,readOnly: true,)
+                                            AppInput( hint: "Prix Revendeurs", controller: _productController.resellerPrice.value,readOnly: true,)
 
                                           ],
                                         ),
@@ -483,7 +521,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                            const SizedBox(
                                               height: 5,
                                             ),
-                                            AppInput(hint: "Prix Restaurants", controller: _regularPrice,readOnly: true,),
+                                            AppInput(hint: "Prix Restaurants", controller: _productController.restaurantPrice.value,readOnly: true,),
 
                                           ],
                                         ),
@@ -514,7 +552,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                            const SizedBox(
                                               height: 5,
                                             ),
-                                            AppInput(hint: "Prix Grossistes", controller: _wholeSellPrice,readOnly: true,),
+                                            AppInput(hint: "Prix Grossistes", controller: _productController.wholesalersPrice.value,readOnly: true,),
 
                                           ],
                                         ),
@@ -539,7 +577,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            AppInput(controller: _discountPrice, hint: "Remise en %"),
+                                            AppInput(controller: _productController.productDiscountPrice.value, hint: "Remise en %"),
                                           ],
                                         ),
                                       ),
@@ -569,36 +607,150 @@ class _AddNewProductState extends State<AddNewProduct> {
                                           color: Colors.black)),
 
                                   const SizedBox(height: 20,),
-
-                                  //select Category
-                                  InkWell(
-                                    onTap: (){
-                                      selectCategoryMethod();
-                                    },
-                                    child: Container(
-
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(color: Colors.grey.shade200),
-                                        color: Colors.white,
+                                  Obx(() {
+                                    return _categoryController.isLoading.value
+                                        ? Center()
+                                        : DropdownButtonHideUnderline(
+                                      child: DropdownButton2<SingleCategory>(
+                                        isExpanded: true,
+                                        hint: Text(
+                                          'Select Main Category',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Theme.of(context).hintColor,
+                                          ),
+                                        ),
+                                        items: _categoryController.mainCategoryModel.value.data!.map((item) {
+                                          return DropdownMenuItem<SingleCategory>(
+                                            value: item,
+                                            child: Text(
+                                              item.name!,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        value: _categoryController.mainCategoryModel.value.data!
+                                            .contains(_categoryController.singleMainCategory.value)
+                                            ? _categoryController.singleMainCategory.value
+                                            : null, // Ensure valid value
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            _categoryController.singleMainCategory.value = value;
+                                            _categoryController.subCatList.value = value.subCategories!;
+                                            _productController.mainCatId.value = value.id.toString();
+                                          }
+                                        },
+                                        buttonStyleData: ButtonStyleData(
+                                          padding: EdgeInsets.symmetric(horizontal: 16),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: 1, color: Colors.grey.shade300),
+                                          ),
+                                        ),
+                                        menuItemStyleData: const MenuItemStyleData(
+                                          height: 40,
+                                        ),
                                       ),
-                                      child:const Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Select Category",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.grey),),
-                                          Icon(Icons.arrow_drop_down,color: Colors.grey,)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-
-
+                                    );
+                                  }),
                                   const SizedBox(height: 20,),
+                                  // Dropdown for selecting subcategory
+                                  Obx(() {
+                                    return _categoryController.singleSubCat.value == null
+                                        ? Center()
+                                        : DropdownButtonHideUnderline(
+                                      child: DropdownButton2<SingleCategory>(
+                                        isExpanded: true,
+                                        hint: Text(
+                                          'Select Main Sub Category',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Theme.of(context).hintColor,
+                                          ),
+                                        ),
+                                        items: _categoryController
+                                            .singleMainCategory.value.subCategories!
+                                            .map((item) {
+                                          return DropdownMenuItem<SingleCategory>(
+                                            value: item,
+                                            child: Text(
+                                              item.name!,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        value: _categoryController.singleMainCategory.value.subCategories!
+                                            .contains(_categoryController.singleSubCat.value)
+                                            ? _categoryController.singleSubCat.value
+                                            : null, // Ensure valid value
+                                        onChanged: (value) {
+                                          if (value != null) {
+                                            _categoryController.singleSubCat.value = value;
 
-                                  ///Sub Category
-                                  DropDown2(items: subCategory, hint: "Sub Category", onChange: (v){setState(() {_subCaregory = v;});}),
-                                 const SizedBox(height: 10,),
+                                            // Add subcategory to productController's list and trigger reactivity
+                                            if(_productController.subCatListId.value.contains(value.id.toString()) == false){
+                                              _productController.subCatListId.value.add(value.id.toString());
+                                              _productController.subCatListId.refresh(); // Notify change
+
+                                              _productController.subCatListName.value.add(value.name.toString());
+                                              _productController.subCatListName.refresh(); // Notify change
+                                            }
+
+
+                                          }
+                                        },
+                                        buttonStyleData: ButtonStyleData(
+                                          padding: EdgeInsets.symmetric(horizontal: 16),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: 1, color: Colors.grey.shade300),
+                                          ),
+                                        ),
+                                        menuItemStyleData: const MenuItemStyleData(
+                                          height: 40,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                  SizedBox(height: 10),
+
+// ListView displaying selected subcategories
+                                  Obx(() {
+                                    return _productController.subCatListName.value.isEmpty
+                                        ? Center()
+                                        : ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: _productController.subCatListName.value.length,
+                                      itemBuilder: (_, index) {
+                                        return ListTile(
+                                          title: Text("${_productController.subCatListName.value[index]}"),
+                                          trailing: IconButton(
+                                            onPressed: () {
+                                              // Remove item from both lists and refresh
+                                              _productController.subCatListName.value.removeAt(index);
+                                              _productController.subCatListName.refresh(); // Refresh the name list
+
+
+                                              _productController.subCatListId.value.removeAt(index);
+                                              _productController.subCatListId.refresh(); // Refresh the ID list
+                                            },
+                                            icon: Icon(Icons.delete, color: Colors.red),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }),
+
+
+
+
+
+                                  const SizedBox(height: 10,),
 
                                   // ListView.builder(
                                   //   physics:const NeverScrollableScrollPhysics(),
@@ -636,7 +788,15 @@ class _AddNewProductState extends State<AddNewProduct> {
              //add Product button
              const SizedBox(height: 30,),
 
-              AppButton(onClick: (){}, text: "Add Product"),
+              Obx(() {
+                  return AppButton(
+                    isLoading: _productController.isAddingLoading.value,
+                      onClick: ()async{
+                        await _productController.addProduct(images);
+                     },
+                      text: "Add Product");
+                }
+              ),
 
             ],
 
@@ -659,20 +819,21 @@ class _AddNewProductState extends State<AddNewProduct> {
         content: Container(
           height:500,
           width: 300,
-          child: ListView.builder(
-              itemCount: 100,
+          child: _categoryController.isLoading.value ? Center(child: CircularProgressIndicator(),) : ListView.builder(
+              itemCount: _categoryController.mainCategoryModel.value.data!.length,
               itemBuilder: (context,index){
-                return  Container(
-                  margin:const  EdgeInsets.all(10),
+                var data = _categoryController.mainCategoryModel.value.data![index];
+               return Container(
+                  margin:const  EdgeInsets.only(bottom: 5),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColor.borders)
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: AppColor.borders)
                   ),
                   child: ListTile(
                     onTap: (){},
                     contentPadding: const EdgeInsets.only(left: 10),
-                    title: Text("Category"),
-                    leading:Icon(Icons.ac_unit_sharp),
+                    title: Text("${data.name}"),
+                    leading: Image.network("${data.image}", height: 30, width: 30,),
                   ),
                 );
               }),
@@ -684,6 +845,9 @@ class _AddNewProductState extends State<AddNewProduct> {
       );
     });
   }
+
+
+
 
 }
 

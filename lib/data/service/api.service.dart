@@ -10,9 +10,9 @@ class ApiService{
   //get api
   Future<http.Response> getApi(url)async{
     var response = await http.get(Uri.parse(url),
-      headers: {
-        "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
-      }
+      // headers: {
+      //   "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+      // }
     );
     debugPrint("Url -------------- ${url}");
     debugPrint("State Code -------------- ${response.statusCode}");
@@ -26,8 +26,10 @@ class ApiService{
   Future<http.Response> postApi(url, data)async{
     var response = await http.post(Uri.parse(url),
         body: jsonEncode(data),
+
         headers: {
-          "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+            "Content-Type" : "application/json"
+         // "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
         }
     );
     debugPrint("Url -------------- ${url}");
@@ -38,11 +40,12 @@ class ApiService{
 
 
   //put api
-  Future<http.Response> putApi(url, id, data,)async{
+  Future<http.Response> putApi(url, data,)async{
     var response = await http.put(Uri.parse(url),
         body: jsonEncode(data),
         headers: {
-          "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+        "Content-Type" : "application/json"
+          //"Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
         }
     );
     debugPrint("Url -------------- ${url}");
@@ -53,11 +56,11 @@ class ApiService{
 
 
   //delete api
-  Future<http.Response> deleteApi(url, id,)async{
+  Future<http.Response> deleteApi(url)async{
     var response = await http.delete(Uri.parse(url),
-        headers: {
-          "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
-        }
+        // headers: {
+        //   "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+        // }
     );
     debugPrint("Url -------------- ${url}");
     debugPrint("State Code -------------- ${response.statusCode}");

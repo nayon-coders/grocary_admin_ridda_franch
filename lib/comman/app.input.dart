@@ -1,57 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:minia_web_project/comman/colors.dart';
-
 
 class AppInput extends StatelessWidget {
-  final String hint;
-  final bool obscure;
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-  final bool readOnly;
-  final TextInputType?textType;
-  final int? maxLine;
-
-  const AppInput({
-    super.key,
+  AppInput({super.key,
     required this.hint,
-    this.obscure = false,
     required this.controller,
+    this.suffixIcon,
+    this.prefixIcon,
     this.readOnly = false,
+    this.obscureText = false,
     this.validator,
     this.textType,
-    this.maxLine ,
-
+    this.onClick,
+    this.onChanged,
+    this.maxLine = 1,
+    this.isValidatorNeed = true,
+    this.obscure = false
 
   });
+  final String hint;
+  final TextEditingController controller;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  String? Function(String?)? validator;
+  final bool readOnly;
+  final bool obscureText;
+  final TextInputType?textType;
+  final VoidCallback? onClick;
+  final Function(String)? onChanged;
+  final int maxLine;
+  final bool isValidatorNeed;
+  final bool obscure;
+
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onClick,
+      onChanged: onChanged,
       maxLines: maxLine,
-      obscureText: obscure,
-      controller: controller,
-      style: const TextStyle(
-        fontSize: 14,
-        color: AppColor.hintcolor,
-        fontWeight: FontWeight.w400,
-      ),
-      autocorrect: true,
+      keyboardType:textType,
+      style: TextStyle(fontWeight: FontWeight.w600,fontSize: 13,color: Color(
+          0xFF262626)),
+      readOnly:readOnly ,
+      obscureText:obscureText ,
+      controller:controller ,
+      validator: (v){
+        if(isValidatorNeed){
+          if(v!.isEmpty){
+            return "This filed must not be empty.";
+          }
+          return null;
+        }
+
+      },
       decoration: InputDecoration(
-        isDense: true,
+        contentPadding: EdgeInsets.only(left: 15,),
         hintText: hint,
-        hintStyle: const TextStyle(
-            color: AppColor.hintcolor,
-            fontSize: 14,
-            fontWeight: FontWeight.w400),
-        // fillColor: AppColor.lightwhite.withOpacity(.25),
-        // contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-        enabledBorder: OutlineInputBorder(
+        hintStyle: TextStyle(fontWeight: FontWeight.w400,fontSize: 13,color: Colors.blueGrey),
+
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
+
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:const BorderSide(color: AppColor.borders,),
+          borderSide: BorderSide.none,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide:const BorderSide(color: AppColor.borders,),
+        focusedBorder:OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
         ),
       ),
     );

@@ -3,11 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:minia_web_project/controller/sidebar_controller.dart';
 import 'package:minia_web_project/view/Menus/drawer.dart';
+import 'package:minia_web_project/view/OrderManagement/controller/order.management.controller.dart';
 import 'package:minia_web_project/view/ProductManagement/controller/product.controller.dart';
 
 import '../../comman/colors.dart';
 import '../Authentication/controller/login.controller.dart';
 import '../ProductManagement/controller/category.controller.dart';
+import '../ProductManagement/controller/postcode.controller.dart';
 
 class LargeScreenMenus extends GetView<SideBarController> {
   const LargeScreenMenus({super.key});
@@ -121,6 +123,7 @@ class LargeScreenMenus extends GetView<SideBarController> {
                         ? AppColor.selecteColor
                         : null,
                     onTap: () {
+                      Get.put(PostCodeController()); //inject post code controller
                       controller.index.value = 4;
                       width < 983 ? controller.expandOrShrinkDrawer() : null;
                     },
@@ -143,6 +146,7 @@ class LargeScreenMenus extends GetView<SideBarController> {
                         ? AppColor.selecteColor
                         : null,
                     onTap: () {
+                      Get.put(OrderManagementController());
                       controller.index.value = 5;
                       width < 983 ? controller.expandOrShrinkDrawer() : null;
                     },
