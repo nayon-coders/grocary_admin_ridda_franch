@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minia_web_project/comman/app.input.dart';
 import 'package:minia_web_project/comman/app_button.dart';
+import 'package:minia_web_project/comman/app_network_image.dart';
 import 'package:minia_web_project/comman/colors.dart';
 import 'package:minia_web_project/comman/dropdown2.dart';
 import 'package:minia_web_project/controller/firebase.image.controller.dart';
 import 'package:minia_web_project/controller/product_json.dart';
+import 'package:minia_web_project/controller/sidebar_controller.dart';
+import 'package:minia_web_project/data/model/product.list.model.dart';
 import 'package:minia_web_project/view/ProductManagement/controller/category.controller.dart';
 import 'package:minia_web_project/view/ProductManagement/controller/product.controller.dart';
 
@@ -23,6 +26,7 @@ class AddNewProduct extends StatefulWidget {
 
 class _AddNewProductState extends State<AddNewProduct> {
 
+  SideBarController _sidebarController = Get.find<SideBarController>();
   CategoryController _categoryController = Get.find<CategoryController>();
   ProductController _productController = Get.find<ProductController>();
 
@@ -63,12 +67,26 @@ class _AddNewProductState extends State<AddNewProduct> {
             children: [
 
               //title Text
-              const Text(
-                "Add New Product",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: (){
+                      _sidebarController.index.value = 1;
+                      _productController.clearAll();
+                    },
+                    icon: Icon(Icons.arrow_back, size: 25,),
+                  ),
+                  Obx(() {
+                      return Text(
+                        _productController.isEdit.value ? "Edit Product" : "Add New Product",
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      );
+                    }
+                  ),
+                ],
               ),
 
 
@@ -132,7 +150,9 @@ class _AddNewProductState extends State<AddNewProduct> {
 
                             //short description Dropdown
                             DropDown2(
-                                items: ProductJson.descriptionList, hint: "Conditionnement", onChange: (v){setState(() {
+                                items: ProductJson.descriptionList,
+                              //  value:  _productController.productShortDes.value.text.isNotEmpty ?  _productController.productShortDes.value.text : "",
+                                hint: "Conditionnement", onChange: (v){setState(() {
                               _productController.productShortDes.value.text = v!;
                             });}),
 
@@ -194,9 +214,10 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       DropDown2(
                                           items: ProductJson.productTypeList,
                                           hint: "Choisir",
+                                         // value: _productController.productType.value.isNotEmpty ?  _productController.productType.value.isNotEmpty :  "",
                                           onChange: (v){
                                             setState(() {
-                                              _productController.productType.value = v!;
+                                              _productController.productType.value = v!.toString();
                                             });
                                           }),
 
@@ -262,6 +283,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       DropDown2(
                                           items: ProductJson.allCountry,
                                           hint: "Origin",
+                                         // value: _productController.country.value ?? "",
                                           onChange: (v){
                                             setState(() {
                                               _productController.country.value = v!;
@@ -295,7 +317,8 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       ),
                                       DropDown2(
                                           items: ProductJson.tvas, 
-                                          hint:" 0.0 %", 
+                                          hint:" 0.0 %",
+                                          //value:  _productController.tax.value ?? "",
                                           onChange: (v){
                                             _productController.tax.value = v!; 
                                           }
@@ -348,56 +371,107 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       ),
                                     ),
 
-                                    images.isEmpty ? Center() : Expanded(
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: images.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (_, index) {
-                                          var data = images[index];
-                                          return Stack(
-                                            children: [
-                                              Container(
-                                                width: 100,
-                                                height: 100,
-                                                margin:
-                                                const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        10),
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Colors.green)),
-                                                child: Image.memory(data!, fit: BoxFit.cover,),
-                                              ),
-                                              Positioned(
-                                                right: 15,
-                                                top: 15,
-                                                child: Container(
+                                    images.isNotEmpty
+                                        ? Expanded(
+                                         child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: images.length,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (_, index) {
+                                            var data = images[index];
+                                            return Stack(
+                                              children: [
+                                                Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  margin:
+                                                  const EdgeInsets.all(10),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
                                                       borderRadius:
                                                       BorderRadius.circular(
-                                                          100)),
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          images.removeAt(index);
-                                                        });
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.delete,
-                                                        color: Colors.red,
-                                                      )),
+                                                          10),
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: Colors.green)),
+                                                  child: Image.memory(data!, fit: BoxFit.cover,),
                                                 ),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    )
+                                                Positioned(
+                                                  right: 15,
+                                                  top: 15,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            100)),
+                                                    child: IconButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            images.removeAt(index);
+                                                          });
+                                                        },
+                                                        icon: Icon(
+                                                          Icons.delete,
+                                                          color: Colors.red,
+                                                        )),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                    ) : _productController.productImages.value.isNotEmpty
+                                        ?  SizedBox(
+                                          height: 100,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: _productController.productImages.value.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (_, index) {
+                                              var data = _productController.productImages.value[index];
+                                              return Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    margin:
+                                                    const EdgeInsets.all(10),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                        border: Border.all(
+                                                            width: 1,
+                                                            color: Colors.green)),
+                                                    child: AppNetworkImage(image: data),
+                                                  ),
+                                                  Positioned(
+                                                    right: 15,
+                                                    top: 15,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              100)),
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _productController.productImages.value.removeAt(index);
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.red,
+                                                          )),
+                                                    ),
+                                                  )
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ) : Center()
                                   ],
                                 )
                             )
@@ -718,7 +792,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                   }),
                                   SizedBox(height: 10),
 
-// ListView displaying selected subcategories
+                                  // ListView displaying selected subcategories
                                   Obx(() {
                                     return _productController.subCatListName.value.isEmpty
                                         ? Center()
@@ -790,11 +864,17 @@ class _AddNewProductState extends State<AddNewProduct> {
 
               Obx(() {
                   return AppButton(
+                    bgColor:   _productController.isEdit.value  ? Colors.amber : Colors.green,
                     isLoading: _productController.isAddingLoading.value,
                       onClick: ()async{
+                      if(   _productController.isEdit.value  ){
+                        await _productController.updateProduct(images, _productController.selectedSingleProductListModel.value.id.toString());
+                      }else{
                         await _productController.addProduct(images);
+                      }
+
                      },
-                      text: "Add Product");
+                      text: "${   _productController.isEdit.value  ? "Edit Product" : "Add Product"} ");
                 }
               ),
 

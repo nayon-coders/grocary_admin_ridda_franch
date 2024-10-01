@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:minia_web_project/comman/app_table/app.table.dart';
+import 'package:minia_web_project/controller/sidebar_controller.dart';
 import 'package:minia_web_project/view/ProductManagement/controller/product.controller.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -16,6 +17,7 @@ class AllProducts extends StatefulWidget {
 
 class _AllProductsState extends State<AllProducts> {
   ProductController _productController = Get.find();
+  SideBarController _sideBarController = Get.find();
 
   final _searchController = TextEditingController();
 
@@ -35,7 +37,7 @@ class _AllProductsState extends State<AllProducts> {
       padding:const EdgeInsets.all(20),
       child: Container(
         child: AppTable(
-          title: "Product List ${productController.test.value}",
+          title: "Product List",
           headersChildren:const [
             TableHeader(name: "ID", width: 50),
             TableHeader(name: "Name", width: 200),
@@ -56,11 +58,11 @@ class _AllProductsState extends State<AllProducts> {
                 height: 500,
                 child: ListView.builder(
                   //data length
-                  itemCount: _productController.productList.value.length,
+                  itemCount: _productController.productListModel.value.data!.length,
                   itemBuilder: (context, index){
 
 
-                    var data = _productController.productList.value[index];
+                    var data = _productController.productListModel.value!.data![index];
 
                     //store data variable
                     return Container(
@@ -126,10 +128,45 @@ class _AllProductsState extends State<AllProducts> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  IconButton(onPressed: (){}, icon:const Icon(Icons.edit,color: Colors.amber,)),
-                                  IconButton(onPressed: (){}, icon:const Icon(Icons.visibility,color: Colors.green,)),
-                                  IconButton(onPressed: (){}, icon:const Icon(Icons.delete,color: Colors.red,)),
-                                ],
+                                  IconButton(
+                                      onPressed: (){
+                                        _sideBarController.index.value = 2;
+                                        _productController.selectedSingleProductListModel.value = data;
+                                        _productController.updateProductValue();
+
+                                      },
+                                      icon:const Icon(Icons.edit,color: Colors.amber,)
+                                  ),
+                                  Obx(() {
+                                      return IconButton(
+                                          onPressed: (){
+                                            Get.defaultDialog(
+                                              title: "Are you sure?",
+                                              content: Text("Do you want to delete product?"),
+                                              onConfirm: (){
+                                                return  _productController.isDeletingData.value ? null :  _productController.deleteProduct(data.id.toString());
+                                              },
+                                              onCancel: ()=>Get.back()
+                                            );
+                                         },
+                                          icon: _productController.isDeletingData.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.visibility,color: Colors.green,));
+                                    }
+                                  ),
+                                  Obx(() {
+                                    return IconButton(
+                                        onPressed: (){
+                                          Get.defaultDialog(
+                                              title: "Are you sure?",
+                                              content: Text("Do you want to delete product?"),
+                                              onConfirm: (){
+                                                return  _productController.isDeletingData.value ? null :  _productController.deleteProduct(data.id.toString());
+                                              },
+                                              onCancel: ()=>Get.back()
+                                          );
+                                        },
+                                        icon: _productController.isDeletingData.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.delete,color: Colors.red,));
+                                  }
+                                  ),                                ],
                               ),
                             ),
                           ),
