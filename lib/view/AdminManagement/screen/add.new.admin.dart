@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:minia_web_project/view/AdminManagement/controller/admin.role.controller.dart';
+import 'package:minia_web_project/view/AdminManagement/widgets/admin.role.list.view.dart';
 
 import '../../../comman/app.input.dart';
 import '../../../comman/app_button.dart';
@@ -12,17 +15,19 @@ class AddNewAdmin extends StatefulWidget {
 }
 
 class _AddNewAdminState extends State<AddNewAdmin> {
-  bool check = true;
 
-  final _firstName = TextEditingController();
-  final _lastName = TextEditingController();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  //inject the controller
+  AdminRoleController _adminRoleController = Get.find<AdminRoleController>();
+  //inject the controller
 
-  //dropdown
-  final List<String> items = ['Item1', 'Item2', 'Item3', 'Item4'];
 
-  String? selectedValue;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _adminRoleController.getAllRoleList(); //getting all role list
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -56,25 +61,25 @@ class _AddNewAdminState extends State<AddNewAdmin> {
                   //first name
                   const Text("First Name",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black),),
                   const SizedBox(height: 10,),
-                  AppInput(hint: "First Name", controller: _firstName),
+                  AppInput(hint: "First Name", controller: _adminRoleController.firstName.value),
                   const SizedBox(height: 15,),
 
                   //last name
                   const Text("Last Name",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black),),
                   const SizedBox(height: 10,),
-                  AppInput(hint: "Last Name", controller: _lastName),
+                  AppInput(hint: "Last Name", controller: _adminRoleController.lastName.value),
                   const SizedBox(height: 15,),
 
                   //email
                   const Text("Email ",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black),),
                   const SizedBox(height: 10,),
-                  AppInput(hint: "Email", controller: _email),
+                  AppInput(hint: "Email", controller: _adminRoleController.email.value),
                   const SizedBox(height: 15,),
 
                   //password
                   const Text("Password",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black),),
                   const SizedBox(height: 10,),
-                  AppInput(hint: "Password", controller: _password),
+                  AppInput(hint: "Password", controller: _adminRoleController.pass.value),
                   const SizedBox(height: 15,),
 
 
@@ -87,113 +92,8 @@ class _AddNewAdminState extends State<AddNewAdmin> {
                     ),
                   ),
                   const SizedBox(height: 5,),
-                  DropDown2(items: items, hint: "select role", onChange: (v){
-                    setState(() {
-                      selectedValue = v;
-                    });
-                  }),
+                  AdminRoleList(),
                   SizedBox(height: 20,),
-
-                  ///choose permission
-                  const Text("Choose permission"),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: size.width*.25,
-                        child: CheckboxListTile(
-                          value: check,
-                          onChanged: (c){setState(() {
-                            check =c!;
-                          });},
-                          title:const Text("Dashboard"),
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-
-                      ),
-                      SizedBox(
-                          width: size.width*.25,
-                          child: CheckboxListTile(
-
-                            value: check,
-                            onChanged: (newValue) {
-                              setState(() {
-                                check = newValue!;
-                              });
-                            },
-                            title:const Text("Product Management"),
-                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                          )
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: size.width*.25,
-                        child: CheckboxListTile(
-                          value: check,
-                          onChanged: (c){setState(() {
-                            check =c!;
-                          });},
-                          title:const Text("Order management"),
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-
-                      ),
-                      SizedBox(
-                          width: size.width*.25,
-                          child: CheckboxListTile(
-
-                            value: check,
-                            onChanged: (newValue) {
-                              setState(() {
-                                check = newValue!;
-                              });
-                            },
-                            title:const Text("Customer Management"),
-                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                          )
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: size.width*.25,
-                        child: CheckboxListTile(
-                          value: check,
-                          onChanged: (c){setState(() {
-                            check =c!;
-                          });},
-                          title: Text("Invoicing"),
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-
-                      ),
-                      SizedBox(
-                          width: size.width*.25,
-                          child: CheckboxListTile(
-
-                            value: check,
-                            onChanged: (newValue) {
-                              setState(() {
-                                check = newValue!;
-                              });
-                            },
-                            title: Text("User"),
-                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                          )
-                      ),
-                    ],
-                  ),
 
                   const SizedBox(height: 40,),
 
@@ -201,7 +101,10 @@ class _AddNewAdminState extends State<AddNewAdmin> {
                   AppButton(
                     width: size.width,
                     text:"Submit",
-                    onClick:(){},
+                    isLoading: _adminRoleController.isCreatingAdmin.value,
+                    onClick:()async{
+                      await _adminRoleController.createNewAdmin();
+                    },
                   ),
 
 

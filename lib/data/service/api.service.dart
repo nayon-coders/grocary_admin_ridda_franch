@@ -10,9 +10,9 @@ class ApiService{
   //get api
   Future<http.Response> getApi(url)async{
     var response = await http.get(Uri.parse(url),
-      // headers: {
-      //   "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
-      // }
+      headers: {
+        "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+      }
     );
     debugPrint("Url -------------- ${url}");
     debugPrint("State Code -------------- ${response.statusCode}");

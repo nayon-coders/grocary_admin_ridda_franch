@@ -257,15 +257,15 @@ class _LoginState extends State<Login> {
               Obx((){
                   return InkWell(
                     onTap: () async{
-                      Get.toNamed(AppRoute.sidebar);
-                      // if(loginController.isLoading.value){
-                      //   return null;
-                      // }else{
-                      //   if(rowFormKey.currentState!.validate() || rowFormKey.currentState!.validate()){
-                      //     loginController.adminLogin(_email.text, _pass.text);
-                      //   }
-                      //
-                      // }
+                      //Get.toNamed(AppRoute.sidebar);
+                      if(loginController.isLoading.value){
+                        return null;
+                      }else{
+                        if(rowFormKey.currentState!.validate() || rowFormKey.currentState!.validate()){
+                          loginController.adminLogin(_email.text, _pass.text);
+                        }
+
+                      }
 
                     },
                     child: Row(

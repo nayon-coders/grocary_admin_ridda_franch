@@ -7,7 +7,7 @@ class AppConfig{
   static const String API = "api/v1";
   static const String BASE_URL = "$DOMAIN_URL/$API";
 
-  static const String LOGIN = "$BASE_URL/admin/login";
+  static const String LOGIN = "$BASE_URL/admins/login";
 
   //product
   static const String PRODUCT_GET = "$BASE_URL/product/all";
@@ -26,6 +26,25 @@ class AppConfig{
   static const String SUB_CATEGORY_CREATE = "$BASE_URL/subcategory/create";
   static const String SUB_CATEGORY_DELETE = "$BASE_URL/subcategory/delete/";
   static const String SUB_CATEGORY_UPDATE = "$BASE_URL/subcategory/update/";
+
+
+
+  static const String USER_GET = "$BASE_URL/user/all";
+  static const String USER_STATUS_UPDATE = "$BASE_URL/user/status/";
+
+
+
+  static const String ADMIN_LOGIN = "$BASE_URL/admins/login";
+  static const String ADMIN_SIGNUP = "$BASE_URL/admins/signup";
+  static const String ADMIN_GET = "$BASE_URL/admins/me";
+  static const String ADMIN_UPDATE = "$BASE_URL/admins/update";
+  static const String ADMIN_PASSWORD = "$BASE_URL/admins/update/password";
+  static const String ADMIN_ROLE_UPDATE = "$BASE_URL/admins/update/role/1";
+  static const String SINGLE_ADMIN = "$BASE_URL/admins/";
+  static const String ADMIN_GET_ALL = "$BASE_URL/admins/all";
+  static const String ADMIN_DELETE = "$BASE_URL/admins/delete/";
+  static const String ADMIN_ROLE_GET = "$BASE_URL/admins/role";
+  static const String ADMIN_ROLE_PERMISSION_GET = "$BASE_URL/admins/rolewithpermission";
 
 
   //product";

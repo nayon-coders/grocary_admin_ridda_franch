@@ -69,7 +69,7 @@ class LoginController extends GetxController {
 
     if(response.statusCode == 200){
       sharedPreferences?.setString("token", data["data"]["token"].toString());
-      Get.snackbar("Login Success!", "Welcome to W3Coin Admin Panel");
+      Get.snackbar("Login Success!", "Welcome to Admin Panel");
       Get.toNamed(AppRoute.sidebar);
     }else{
       Get.snackbar("Login Failed", "${data["error"]}");

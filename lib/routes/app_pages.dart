@@ -28,11 +28,12 @@ class AppPages {
       name: AppRoute.sidebar,
       page: () => const SideBarPage(),
 
+
     ),
     GetPage(
       name: AppRoute.login,
       page: () =>  Login(),
-
+        middlewares: [AuthMiddleware()]
     ),
 
     GetPage(

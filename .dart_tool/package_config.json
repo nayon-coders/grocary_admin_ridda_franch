@@ -116,6 +116,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "confirm_dialog",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/confirm_dialog-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "convert",
       "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/convert-3.1.1",
       "packageUri": "lib/",
@@ -1070,7 +1076,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-09-26T10:37:01.841811Z",
+  "generated": "2024-10-02T08:05:38.421554Z",
   "generator": "pub",
   "generatorVersion": "3.0.6"
 }

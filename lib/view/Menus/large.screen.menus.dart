@@ -225,16 +225,7 @@ class LargeScreenMenus extends GetView<SideBarController> {
                 color:
                 controller.index.value == 12 ? AppColor.selecteColor : null,
                 children: [
-                  Menu(
-                    text: 'Add New User',
-                    color: controller.index.value == 12
-                        ? AppColor.selecteColor
-                        : null,
-                    onTap: () {
-                      controller.index.value = 12;
-                      width < 983 ? controller.expandOrShrinkDrawer() : null;
-                    },
-                  ),
+
                   Menu(
                     text: 'New Users',
                     color: controller.index.value == 13
@@ -262,6 +253,17 @@ class LargeScreenMenus extends GetView<SideBarController> {
                         : null,
                     onTap: () {
                       controller.index.value = 15;
+                      width < 983 ? controller.expandOrShrinkDrawer() : null;
+                    },
+                  ),
+
+                  Menu(
+                    text: 'Add New User',
+                    color: controller.index.value == 12
+                        ? AppColor.selecteColor
+                        : null,
+                    onTap: () {
+                      controller.index.value = 12;
                       width < 983 ? controller.expandOrShrinkDrawer() : null;
                     },
                   ),

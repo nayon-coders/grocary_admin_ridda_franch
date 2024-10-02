@@ -14,6 +14,7 @@ import 'package:minia_web_project/view/ProductManagement/screens/add.category.sc
 import 'package:minia_web_project/view/ProductManagement/screens/add.post.code.dart';
 import 'package:minia_web_project/view/ProductManagement/screens/add.product.screen.dart';
 import 'package:minia_web_project/view/ProductManagement/screens/all.product.screen.dart';
+import 'package:minia_web_project/view/user_management/screen/active.user.dart';
 import 'package:minia_web_project/view/user_management/screen/add.user.dart';
 import 'package:minia_web_project/view/user_management/screen/block.user.dart';
 import 'package:minia_web_project/view/user_management/screen/new.user.dart';
@@ -53,9 +54,10 @@ class SideBarController extends GetxController {
 
     //user management
     AddNewUser(), //12
-    UserListScreen(), //13
     PendingUser(), //14
-    AddBlockUser(), //15
+    ActiveUser(), //13
+
+    BlockUser(), //15
 
 
     //admin

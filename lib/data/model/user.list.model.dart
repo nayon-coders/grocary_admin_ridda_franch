@@ -14,7 +14,7 @@ class UserListModel {
   final int? totalUsers;
   final int? currentPage;
   final int? totalPages;
-  final List<Datum>? data;
+  final List<UserList>? data;
 
   UserListModel({
     this.success,
@@ -31,7 +31,7 @@ class UserListModel {
     totalUsers: json["totalUsers"],
     currentPage: json["currentPage"],
     totalPages: json["totalPages"],
-    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    data: json["data"] == null ? [] : List<UserList>.from(json["data"]!.map((x) => UserList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -44,60 +44,63 @@ class UserListModel {
   };
 }
 
-class Datum {
+class UserList {
   final int? id;
   final String? name;
   final String? email;
   final String? password;
-  final String? walletNumber;
-  final String? ownRefercode;
-  final String? refercode;
-  final String? signupmethod;
-  final String? phone;
-  final String? profileImage;
-  final String? nidImage;
-  final int? accountStatus;
-  final int? verifyStatus;
-  final String? kycStatus;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? accountEmail;
+  final String? accountPhone;
+  final String? accountType;
+  final String? brand;
+  final String? city;
+  final String? company;
+  final String? contractComptabilit;
+  final String? contractFacturation;
+  final String? postCode;
+  final String? siret;
+  final String? status;
+  final DateTime? createAt;
+  final DateTime? updateAt;
 
-  Datum({
+  UserList({
     this.id,
     this.name,
     this.email,
     this.password,
-    this.walletNumber,
-    this.ownRefercode,
-    this.refercode,
-    this.signupmethod,
-    this.phone,
-    this.profileImage,
-    this.nidImage,
-    this.accountStatus,
-    this.verifyStatus,
-    this.kycStatus,
-    this.createdAt,
-    this.updatedAt,
+    this.accountEmail,
+    this.accountPhone,
+    this.accountType,
+    this.brand,
+    this.city,
+    this.company,
+    this.contractComptabilit,
+    this.contractFacturation,
+    this.postCode,
+    this.siret,
+    this.status,
+    this.createAt,
+    this.updateAt,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory UserList.fromJson(Map<String, dynamic> json) => UserList(
     id: json["id"],
     name: json["name"],
     email: json["email"],
     password: json["password"],
-    walletNumber: json["walletNumber"],
-    ownRefercode: json["own_refercode"],
-    refercode: json["refercode"],
-    signupmethod: json["signupmethod"],
-    phone: json["phone"],
-    profileImage: json["profile_image"],
-    nidImage: json["nid_image"],
-    accountStatus: json["account_status"],
-    verifyStatus: json["verify_status"],
-    kycStatus: json["kyc_status"],
-    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-    updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    accountEmail: json["account_email"],
+    accountPhone: json["account_phone"],
+    accountType: json["account_type"],
+    brand: json["brand"],
+    city: json["city"],
+    company: json["company"],
+    contractComptabilit: json["contract_comptabilité"],
+    contractFacturation: json["contract_facturation"],
+    postCode: json["post_code"],
+    siret: json["siret"],
+    status: json["status"],
+    createAt: json["create_at"] == null ? null : DateTime.parse(json["create_at"]),
+    updateAt: json["update_at"] == null ? null : DateTime.parse(json["update_at"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -105,17 +108,18 @@ class Datum {
     "name": name,
     "email": email,
     "password": password,
-    "walletNumber": walletNumber,
-    "own_refercode": ownRefercode,
-    "refercode": refercode,
-    "signupmethod": signupmethod,
-    "phone": phone,
-    "profile_image": profileImage,
-    "nid_image": nidImage,
-    "account_status": accountStatus,
-    "verify_status": verifyStatus,
-    "kyc_status": kycStatus,
-    "createdAt": createdAt?.toIso8601String(),
-    "updatedAt": updatedAt?.toIso8601String(),
+    "account_email": accountEmail,
+    "account_phone": accountPhone,
+    "account_type": accountType,
+    "brand": brand,
+    "city": city,
+    "company": company,
+    "contract_comptabilité": contractComptabilit,
+    "contract_facturation": contractFacturation,
+    "post_code": postCode,
+    "siret": siret,
+    "status": status,
+    "create_at": createAt?.toIso8601String(),
+    "update_at": updateAt?.toIso8601String(),
   };
 }
