@@ -100,6 +100,8 @@ dependencies:
   firebase_core: ^2.24.2
   cached_network_image: ^3.3.1
   confirm_dialog: ^1.0.2
+  pdf: ^3.11.1
+  printing: ^5.12.0
   #cached_network_image: ^3.2.3
 
   #flutter_dropzone_web: ^3.0.13
@@ -138,19 +140,6 @@ flutter:
   assets:
     - assets/svg/
     - assets/image/
-    - assets/svg/wallets/
-    - assets/svg/maintenance/
-    - assets/image/coming/
-    - assets/svg/timeline/
-    - assets/image/error/
-    - assets/svg/pricing/
-    - assets/svg/switch/
-    - assets/svg/dashboard/
-    - assets/image/flags/
-    - assets/world.json
-    - assets/image/appbar/
-    - assets/image/blog/
-    - assets/svg/wizard/
     - lib/controller/
 
   #   - family: Trajan Pro

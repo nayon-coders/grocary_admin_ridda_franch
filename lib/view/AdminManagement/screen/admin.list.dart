@@ -6,9 +6,10 @@ import 'package:minia_web_project/view/AdminManagement/controller/admin.role.con
 import '../../../comman/app_table/app.table.dart';
 import '../../../comman/app_table/table.header.dart';
 
-class AdminList extends GetView<AdminRoleController> {
+class AdminList extends StatelessWidget {
 
   final _search = TextEditingController();
+  final controller = Get.put(AdminRoleController());
 
   @override
   Widget build(BuildContext context) {

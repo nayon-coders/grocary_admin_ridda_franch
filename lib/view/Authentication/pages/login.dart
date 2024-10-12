@@ -6,6 +6,7 @@ import 'package:floating_bubbles/floating_bubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:minia_web_project/app.config.dart';
 import 'package:minia_web_project/comman/app.input.dart';
 import 'package:minia_web_project/comman/colors.dart';
 import 'package:minia_web_project/controller/sidebar_controller.dart';
@@ -92,7 +93,6 @@ class _LoginState extends State<Login> {
 
   Container loginfileds(height) {
     LoginController loginController = Get.find();
-    SideBarController controller = Get.find();
     return Container(
         // color: Colors.amber,
         // height: height > 670 ? height : 670,
@@ -104,17 +104,17 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(height: 40),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(AppAssets.logo),
-                  LoginText(
-                    color: AppColor.darkblack,
-                    fontWeight: FontWeight.w800,
-                    size: 20,
-                    text: "W3 Coin",
-                  ),
+                  Image.asset("assets/image/logo.png", height: 100, width: 150,),
+                  // LoginText(
+                  //   color: AppColor.darkblack,
+                  //   fontWeight: FontWeight.w800,
+                  //   size: 20,
+                  //   text: AppConfig.APP_NAME,
+                  // ),
                 ],
               ),
               Spacer(),
@@ -125,11 +125,9 @@ class _LoginState extends State<Login> {
                 text: "Welcome Back !",
               ),
               Container(height: 8),
-              LoginText(
-                  color: AppColor.lightdark,
-                  text: "Sign in to continue to W3Admin.",
-                  size: 14,
-                  fontWeight: FontWeight.w500),
+             Center(child: Text("Sign in to continue to ${AppConfig.APP_NAME}.",
+              textAlign: TextAlign.center,
+             )),
               Container(height: 35),
               Align(
                 alignment: Alignment.centerLeft,
@@ -307,7 +305,7 @@ class _LoginState extends State<Login> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: LoginText(
-                        text: "© 2023 W3Coin. Crafted with",
+                        text: "© 2024 ${AppConfig.APP_NAME}. Crafted with",
                         size: 14,
                         color: AppColor.dark,
                         fontWeight: FontWeight.w500,
@@ -340,186 +338,12 @@ class _LoginState extends State<Login> {
 }
 
 
-Stack loginNews1(BuildContext context) {
-  var width = MediaQuery.of(context).size.width;
-  return Stack(
-    alignment: Alignment.center,
-    children: [
-      Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset("assets/svg/double_quote.svg"),
-          Container(height: 25),
-          Text(
-            "“I feel confident imposing change on myself. It's a lot more progressing fun than looking back. That's why I ultricies enim at malesuada nibh diam on tortor neaded to throw curve balls.”",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                color: AppColor.mainbackground,
-                fontSize: 21,
-                fontWeight: FontWeight.w600),
-          ),
-          Container(height: 40),
-          Row(
-            children: [
-              Image.asset(
-                "assets/image/avatar5.png",
-                fit: BoxFit.cover,
-                height: 48,
-                width: 48,
-              ),
-              Container(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Richard Drews",
-                    style: TextStyle(
-                        color: AppColor.mainbackground,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Container(height: 10),
-                  Text(
-                    "Web Developer",
-                    style: TextStyle(
-                        color: AppColor.mainbackground.withOpacity(.50),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
-      ))
-    ],
-  );
-}
-
-Stack loginNews2(BuildContext context) {
-  var width = MediaQuery.of(context).size.width;
-  return Stack(
-    alignment: Alignment.center,
-    children: [
-      Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset("assets/svg/double_quote.svg"),
-          Container(height: 23),
-          Text(
-            "“Our task must be to free ourselves by widening our circle of compassion to embrace all living creatures and the whole of quis consectetur nunc sit amet semper justo. nature and its beauty.”",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                color: AppColor.mainbackground,
-                fontSize: 20,
-                fontWeight: FontWeight.w600),
-          ),
-          Container(height: 40),
-          Row(
-            children: [
-              Image.asset(
-                "assets/image/avatar.png",
-                fit: BoxFit.cover,
-                height: 48,
-                width: 48,
-              ),
-              Container(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Rosanna French",
-                    style: TextStyle(
-                        color: AppColor.mainbackground,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Container(height: 10),
-                  Text(
-                    "Web Developer",
-                    style: TextStyle(
-                        color: AppColor.mainbackground.withOpacity(.50),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
-      ))
-    ],
-  );
-}
-
-Stack loginNews3(BuildContext context) {
-  var width = MediaQuery.of(context).size.width;
-  return Stack(
-    alignment: Alignment.center,
-    children: [
-      Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset("assets/svg/double_quote.svg"),
-          Container(height: 25),
-          Text(
-            "“I've learned that people will forget what you said, people will forget what you did, but people will never forget how donec in efficitur lectus, nec lobortis metus you made them feel.”",
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                color: AppColor.mainbackground,
-                fontSize: 21,
-                fontWeight: FontWeight.w600),
-          ),
-          Container(height: 40),
-          Row(
-            children: [
-              Image.asset(
-                "assets/image/avatar2.png",
-                fit: BoxFit.cover,
-                height: 48,
-                width: 48,
-              ),
-              Container(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Ilse R. Eaton",
-                    style: TextStyle(
-                        color: AppColor.mainbackground,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Container(height: 10),
-                  Text(
-                    "Manager",
-                    style: TextStyle(
-                        color: AppColor.mainbackground.withOpacity(.50),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
-      ))
-    ],
-  );
-}
-
 Stack imageLogin(BuildContext context) {
   return Stack(
     children: [
       Positioned.fill(
         child: Image.asset(
-          "assets/image/login.png",
+          "assets/image/banner.jpg",
           fit: BoxFit.cover,
         ),
       ),
@@ -537,40 +361,7 @@ Stack imageLogin(BuildContext context) {
           speed: BubbleSpeed.values[1],
         ),
       ),
-      Align(
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Column(
-              children: [
-                Container(
-                    // color: Colors.amber,
-                    width: 787,
-                    height: 400,
-                    child: Carousel(
-                      images: [
-                        loginNews1(context),
-                        loginNews2(context),
-                        loginNews3(context),
-                      ],
-                      dotPosition: DotPosition.bottomLeft,
-                      dotSize: 5.0,
-                      dotSpacing: 15.0,
-                      // overlayShadowSize: 5.0,
-                      // showIndicator: true,
-                      boxFit: BoxFit.contain,
-                      autoplayDuration: Duration(seconds: 6),
-                      dotColor: AppColor.dotscolor,
-                      indicatorBgPadding: 5.0,
-                      dotBgColor: Colors.transparent,
-                      borderRadius: false,
-                    )),
-              ],
-            ),
-          ),
-        ),
-      ),
+
     ],
   );
 }

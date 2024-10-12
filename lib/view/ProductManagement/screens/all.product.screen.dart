@@ -140,14 +140,9 @@ class _AllProductsState extends State<AllProducts> {
                                   Obx(() {
                                       return IconButton(
                                           onPressed: (){
-                                            Get.defaultDialog(
-                                              title: "Are you sure?",
-                                              content: Text("Do you want to delete product?"),
-                                              onConfirm: (){
-                                                return  _productController.isDeletingData.value ? null :  _productController.deleteProduct(data.id.toString());
-                                              },
-                                              onCancel: ()=>Get.back()
-                                            );
+                                            _sideBarController.index.value = 2;
+                                            _productController.selectedSingleProductListModel.value = data;
+                                            _productController.updateProductValue();
                                          },
                                           icon: _productController.isDeletingData.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.visibility,color: Colors.green,));
                                     }

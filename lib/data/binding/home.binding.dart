@@ -15,13 +15,9 @@ class HomeBinding extends Bindings{
     // TODO: implement dependencies
     Get.lazyPut<LoginController>(()=>LoginController());
 
-    Get.lazyPut<SideBarController>(()=>SideBarController());
+   // Get.lazyPut<SideBarController>(()=>SideBarController());
     Get.lazyPut<ImagePickerController>(()=>ImagePickerController());
-    Get.lazyPut<AppUserController>(()=>AppUserController());
-    Get.lazyPut<CategoryController>(()=>CategoryController());
-    Get.lazyPut<ProductController>(()=>ProductController());
-    Get.lazyPut<AppUserController>(()=>AppUserController());
-    Get.lazyPut<AdminRoleController>(()=>AdminRoleController());
+
   }
 
 

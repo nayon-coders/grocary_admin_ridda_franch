@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minia_web_project/app.config.dart';
+import 'package:minia_web_project/data/model/single_customer_model.dart';
 import 'package:minia_web_project/data/model/user.list.model.dart';
 import 'package:minia_web_project/data/service/api.service.dart';
 
@@ -28,6 +29,21 @@ class AppUserController extends GetxController{
   }
 
 
+  //text input controller
+  // Defining Rx<TextEditingController> for each field
+  Rx<TextEditingController> nameController = TextEditingController().obs;
+  Rx<TextEditingController> emailController = TextEditingController().obs;
+  Rx<TextEditingController> accountPhoneController = TextEditingController().obs;
+  Rx<TextEditingController> brandController = TextEditingController().obs;
+  Rx<TextEditingController> cityController = TextEditingController().obs;
+  Rx<TextEditingController> companyController = TextEditingController().obs;
+  Rx<TextEditingController> contractComptabiliteController = TextEditingController().obs;
+  Rx<TextEditingController> contractFacturationController = TextEditingController().obs;
+  Rx<TextEditingController> postCodeController = TextEditingController().obs;
+  Rx<TextEditingController> siretController = TextEditingController().obs;
+
+
+
 
   RxBool isLoading = false.obs;
   RxBool isUpdating = false.obs;
@@ -36,10 +52,12 @@ class AppUserController extends GetxController{
   RxList<UserList> blockUserList = <UserList>[].obs;
   RxList<UserList> activeUserList = <UserList>[].obs;
 
+  Rx<SingleCustomerModel> singleCustomerModel = SingleCustomerModel().obs;
+
   //get all user
   getAllUser(String page)async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.USER_GET+"?page=$page&limit=10");
+    var res = await ApiService().getApi(AppConfig.USER_GET);
     if(res.statusCode == 200){
       activeUserList.value.clear();
       blockUserList.value.clear();
@@ -68,7 +86,59 @@ class AppUserController extends GetxController{
     var res = await ApiService().putApi(AppConfig.USER_STATUS_UPDATE+"${id}", data);
     if(res.statusCode == 200){
       getAllUser(userListModel.value.currentPage.toString());
+      Get.back();
       Get.snackbar("Success!", "User status is update. Status: ${status}" ,backgroundColor: Colors.green);
+
+    }else{
+      Get.snackbar("Error!", "Something went wrong. Status: ${res.statusCode}", backgroundColor: Colors.red);
+    }
+    isUpdating.value = false;
+  }
+
+  //get single user
+  getSingleUser(id)async{
+    isLoading.value = true;
+    var res = await ApiService().getApi(AppConfig.USER_SINGLE+"${id}");
+    if(res.statusCode == 200){
+      var data = jsonDecode(res.body);
+      singleCustomerModel.value = SingleCustomerModel.fromJson(data);
+      //set all textediting controller value
+      nameController.value.text = singleCustomerModel.value.name!;
+      emailController.value.text = singleCustomerModel.value.email!;
+      accountPhoneController.value.text = singleCustomerModel.value.accountPhone!;
+      brandController.value.text = singleCustomerModel.value.brand!;
+      cityController.value.text = singleCustomerModel.value.city!;
+      companyController.value.text = singleCustomerModel.value.company!;
+      contractComptabiliteController.value.text = singleCustomerModel.value!.contractComptabilit!;
+      contractFacturationController.value.text = singleCustomerModel.value.contractFacturation!;
+      postCodeController.value.text = singleCustomerModel.value.postCode!;
+      siretController.value.text = singleCustomerModel.value.siret!;
+
+    }
+    isLoading.value = false;
+  }
+
+
+
+  //update user with id
+  updateUser(id)async{
+    isUpdating.value = true;
+    var data = {
+      "name" : nameController.value.text,
+      "email" : emailController.value.text,
+      "accountPhone" : accountPhoneController.value.text,
+      "brand" : brandController.value.text,
+      "city" : cityController.value.text,
+      "company" : companyController.value.text,
+      "contractComptabilit" : contractComptabiliteController.value.text,
+      "contractFacturation" : contractFacturationController.value.text,
+      "postCode" : postCodeController.value.text,
+      "siret" : siretController.value.text,
+    };
+    var res = await ApiService().putApi(AppConfig.USER_UPDATE+"${id}", data);
+    if(res.statusCode == 200){
+      getSingleUser(id);
+      Get.snackbar("Success!", "User is updated successfully",backgroundColor: Colors.green);
     }else{
       Get.snackbar("Error!", "Something went wrong. Status: ${res.statusCode}", backgroundColor: Colors.red);
     }

@@ -28,8 +28,8 @@ class ApiService{
         body: jsonEncode(data),
 
         headers: {
-            "Content-Type" : "application/json"
-         // "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+            "Content-Type" : "application/json",
+          "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
         }
     );
     debugPrint("Url -------------- ${url}");
@@ -44,8 +44,8 @@ class ApiService{
     var response = await http.put(Uri.parse(url),
         body: jsonEncode(data),
         headers: {
-        "Content-Type" : "application/json"
-          //"Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+        "Content-Type" : "application/json",
+          "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
         }
     );
     debugPrint("Url -------------- ${url}");
@@ -58,9 +58,9 @@ class ApiService{
   //delete api
   Future<http.Response> deleteApi(url)async{
     var response = await http.delete(Uri.parse(url),
-        // headers: {
-        //   "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
-        // }
+        headers: {
+          "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
+        }
     );
     debugPrint("Url -------------- ${url}");
     debugPrint("State Code -------------- ${response.statusCode}");

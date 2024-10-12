@@ -116,7 +116,7 @@ import 'package:flutter/material.dart';
 class AppTable extends StatelessWidget {
   AppTable({super.key, this. onPageFront, required this.headersChildren, required this.row, required this.onSearch, required this.searchController, required this.title, this.onChanged, this.isSearchShow = true, this.onPageBack, this.pageLength});
   final List<Widget> headersChildren;
-  final Color headerBg = Colors.green.shade50;
+  final Color headerBg = Colors.green;
   final Widget row;
   final VoidCallback onSearch;
   final TextEditingController searchController;
@@ -217,43 +217,43 @@ class AppTable extends StatelessWidget {
         row,
 
         SizedBox(height: 10,),
-        if (pageLength == 0) Center() else SizedBox(
-          height: 30,
-          child: Align(
-              alignment: Alignment.centerRight,
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: onPageBack,
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.blue,
-                      ),
-                      child: Center(child: Icon(Icons.arrow_back, color: Colors.white, size: 20,),),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text("Page: ${pageLength}"),
-                  SizedBox(width: 10,),
-                  InkWell(
-                    onTap: onPageFront,
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(5)
-                      ),
-                      child: Center(child: Icon(Icons.arrow_forward, color: Colors.white, size: 20,),),
-                    ),
-                  )
-                ],
-              )
-          ),
-        )
+        // if (pageLength == 0) Center() else SizedBox(
+        //   height: 30,
+        //   child: Align(
+        //       alignment: Alignment.centerRight,
+        //       child: Row(
+        //         children: [
+        //           InkWell(
+        //             onTap: onPageBack,
+        //             child: Container(
+        //               width: 30,
+        //               height: 30,
+        //               decoration: BoxDecoration(
+        //                 borderRadius: BorderRadius.circular(5),
+        //                 color: Colors.blue,
+        //               ),
+        //               child: Center(child: Icon(Icons.arrow_back, color: Colors.white, size: 20,),),
+        //             ),
+        //           ),
+        //           SizedBox(width: 10,),
+        //           Text("Page: ${pageLength}"),
+        //           SizedBox(width: 10,),
+        //           InkWell(
+        //             onTap: onPageFront,
+        //             child: Container(
+        //               width: 30,
+        //               height: 30,
+        //               decoration: BoxDecoration(
+        //                   color: Colors.blue,
+        //                   borderRadius: BorderRadius.circular(5)
+        //               ),
+        //               child: Center(child: Icon(Icons.arrow_forward, color: Colors.white, size: 20,),),
+        //             ),
+        //           )
+        //         ],
+        //       )
+        //   ),
+        // )
 
 
       ],

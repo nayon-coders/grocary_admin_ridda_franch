@@ -112,7 +112,9 @@ class SingleProducts {
     categoryName: json["category_name"],
     images: json["images"] == null ? [] : List<ProductImages>.from(json["images"]!.map((x) => ProductImages.fromJson(x))),
     variants: json["variants"] == null ? [] : List<Variant>.from(json["variants"]!.map((x) => Variant.fromJson(x))),
-    subcategories: json["subcategories"] == null ? [] : List<Subcategory>.from(json["subcategories"]!.map((x) => Subcategory.fromJson(x))),
+    subcategories: json["subcategories"] == null
+        ? []
+        : (json["subcategories"] as List).where((x) => x != null).map((x) => Subcategory.fromJson(x)).toList(),
     tags: json["tags"] == null ? [] : List<String>.from(json["tags"]!.map((x) => x)),
   );
 

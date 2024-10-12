@@ -38,6 +38,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "barcode",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/barcode-2.2.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "bidi",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/bidi-2.0.12",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -303,7 +315,7 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/nayon/Development/flutter/packages/flutter",
+      "rootUri": "file:///Users/nayon/development/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -393,7 +405,7 @@
     },
     {
       "name": "flutter_localizations",
-      "rootUri": "file:///Users/nayon/Development/flutter/packages/flutter_localizations",
+      "rootUri": "file:///Users/nayon/development/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -429,7 +441,7 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/nayon/Development/flutter/packages/flutter_test",
+      "rootUri": "file:///Users/nayon/development/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -441,7 +453,7 @@
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///Users/nayon/Development/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///Users/nayon/development/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -692,6 +704,18 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "pdf",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/pdf-3.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "pdf_widget_wrapper",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/pdf_widget_wrapper-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "percent_indicator",
       "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/percent_indicator-4.2.3",
       "packageUri": "lib/",
@@ -722,10 +746,22 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "printing",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/printing-5.12.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "provider",
       "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/provider-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "qr",
+      "rootUri": "file:///Users/nayon/.pub-cache/hosted/pub.dev/qr-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
     },
     {
       "name": "quill_html_editor",
@@ -813,7 +849,7 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/nayon/Development/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/nayon/development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -1076,7 +1112,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-10-02T08:05:38.421554Z",
+  "generated": "2024-10-12T07:58:21.445624Z",
   "generator": "pub",
   "generatorVersion": "3.0.6"
 }

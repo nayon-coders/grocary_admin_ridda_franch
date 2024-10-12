@@ -7,13 +7,13 @@ import 'package:minia_web_project/main.dart';
 import 'package:minia_web_project/middleware/auth.middleware.dart';
 import 'package:minia_web_project/routes/app_routes.dart';
 import 'package:minia_web_project/routes/pages.dart';
+import 'package:minia_web_project/view/Authentication/controller/login.controller.dart';
 import 'package:minia_web_project/view/Authentication/pages/reset_pass.dart';
 import 'package:minia_web_project/view/user_management/controller/user.controller.dart';
 import 'package:minia_web_project/view/user_management/screen/user_list.dart';
 import '../view/Authentication/pages/log_out.dart';
 import '../view/Authentication/pages/login.dart';
 import '../view/Menus/drawer.dart';
-import '../view/dashboard.dart';
 
 class AppPages {
   AppPages._();
@@ -22,11 +22,14 @@ class AppPages {
   static final routes = [
     GetPage(
       name: Paths.myApp,
-      page: () => const MyApp(),
+      page: () =>  MyApp(),
     ),
     GetPage(
       name: AppRoute.sidebar,
       page: () => const SideBarPage(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<LoginController>(() => LoginController());
+      }),
 
 
     ),

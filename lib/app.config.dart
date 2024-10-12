@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 class AppConfig{
 
 
+
+  static const String APP_NAME = "Commendes Pros - Admin";
+
+
   static const String DOMAIN_URL = "https://grocary-ecommerce.vercel.app";
   static const String API = "api/v1";
   static const String BASE_URL = "$DOMAIN_URL/$API";
 
   static const String LOGIN = "$BASE_URL/admins/login";
+  static const String MY_PROFILE = "$BASE_URL/admins/me";
 
   //product
   static const String PRODUCT_GET = "$BASE_URL/product/all";
@@ -31,6 +36,8 @@ class AppConfig{
 
   static const String USER_GET = "$BASE_URL/user/all";
   static const String USER_STATUS_UPDATE = "$BASE_URL/user/status/";
+  static const String USER_SINGLE = "$BASE_URL/user/";
+  static const String USER_UPDATE = "$BASE_URL/user/update/";
 
 
 
@@ -48,4 +55,13 @@ class AppConfig{
 
 
   //product";
+
+  //order
+  static const String ORDER_GET = "$BASE_URL/order/all";
+  static const String ORDER_GET_SINGLE = "$BASE_URL/order/";
+  static const String ORDER_STATUS_UPDATE = "$BASE_URL/order/status/update/";
+  static const String ORDER_PRICE_UPDATE = "$BASE_URL/order/update-price/";
+
+
+
 }

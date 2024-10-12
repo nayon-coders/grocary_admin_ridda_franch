@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +13,7 @@ import '../widgets/category.list.view.dart';
 
 class AddNewCategory extends StatelessWidget {
 
-  CategoryController controller = Get.find();
+  CategoryController controller = Get.put(CategoryController());
 
 
   @override

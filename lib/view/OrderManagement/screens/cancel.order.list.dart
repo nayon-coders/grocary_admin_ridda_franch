@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:minia_web_project/view/OrderManagement/screens/single_order.dart';
+import 'package:minia_web_project/view/OrderManagement/widgets/top_box.dart';
 
 import '../../../comman/app_table/app.table.dart';
 import '../../../comman/app_table/table.header.dart';
+import '../controller/order.management.controller.dart';
 
 class CancelOrderList extends StatefulWidget {
   const CancelOrderList({super.key});
@@ -12,98 +16,133 @@ class CancelOrderList extends StatefulWidget {
 
 class _CancelOrderListState extends State<CancelOrderList> {
   final _searchController = TextEditingController();
+
+  OrderManagementController controller =  Get.put(OrderManagementController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  bool isSingleOrder = false;
+  var _selectedOrderId;
+
+  onBack(bool value){
+    setState(() {
+      isSingleOrder = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return isSingleOrder ? SingleOrders(id: _selectedOrderId!, onBack: onBack,) : Container(
       color: Colors.white,
-      padding:const EdgeInsets.all(20),
+      padding:const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       child: Container(
-        child: AppTable(
-          title: "Cancel Order's",
-          headersChildren:const [
-            TableHeader(name: "Order ID", width: 120),
-            TableHeader(name: "Payment Method", width: 120),
-            TableHeader(name: "Delivery Address", width: 150),
-            TableHeader(name: "Status", width: 120),
-            TableHeader(name: "Date Time ", width: 120),
-            TableHeader(name: "Action", width:50),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
+            Text("Order Summery",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+            SizedBox(height: 10,),
+            OrdersBox(width: MediaQuery.of(context).size.width),
+            SizedBox(height: 20,),
+            AppTable(
+              //pageLength: controller.allOrderModel.value.totalOrders!,
+              title: "Annulé",
+              headersChildren:const [
+                TableHeader(name: "ID", width: 30),
+                TableHeader(name: "Company name", width: 150),
+                TableHeader(name: "Payment Method", width: 120),
+                TableHeader(name: "Delivery Address", width: 250),
+                TableHeader(name: "Status", width: 120),
+                TableHeader(name: "Date Time ", width: 120),
+                TableHeader(name: "Action", width:50),
 
-
-
-          ],
-          row:Container(
-            height: 500,
-            child: ListView.builder(
-              //data length
-              itemCount: 33,
-              itemBuilder: (context, index){
-
-
-
-                //store data variable
-                return Container(
-                  height: 56,
-                  margin:const EdgeInsets.only(bottom:5,top: 5),
-                  padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
-                  decoration: BoxDecoration(
-                    color:index.isEven?Colors.grey.shade200: Colors.grey.shade100,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-
-
-
-                      //Id
-                      TableHeader(name:"${index+1908}", width:120),
-
-
-                      //Payment Method
-                      TableHeader(name: "Payment Method", width: 120),
-
-
-                      //Delivery Address
-                      TableHeader(name: "Delivery Address ", width: 150),
-
-
-                      //status
-                      InkWell(
-                        onTap: (){},
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-
-                            width: 120,
-                            padding: const EdgeInsets.all(5),
-                            margin:const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.red
-                            ),
-                            child: const Center(
-                              child: Text("Canceled",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.white),),
-                            ),
+              ],
+              row: Container(
+                height: 500,
+                child: Obx(() {
+                  if(controller.isGettingData.value){
+                    return Center(child: CircularProgressIndicator(),);
+                  }else if(controller.totalCancelOrder.value.isNotEmpty){
+                    return ListView.builder(
+                      //data length
+                      itemCount: controller.totalCancelOrder.value.length,
+                      itemBuilder: (context, index){
+                        //store data variable
+                        var data = controller.totalCancelOrder.value![index] ;
+                        return Container(
+                          height: 56,
+                          margin:const EdgeInsets.only(bottom:5,top: 5),
+                          padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
+                          decoration: BoxDecoration(
+                            color:index.isEven?Colors.grey.shade100: Colors.grey.shade50,
                           ),
-                        ),
-                      ),
-
-                      //Date Time
-                      TableHeader(name: "Date Time ", width: 120),
-
-
-                      //Action button
-                      SizedBox(
-                        width: 50,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: IconButton(onPressed: (){}, icon:const Icon(Icons.visibility,color: Colors.green,)),
-                        ),
-                      ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
 
 
 
+                              //Id
+                              TableHeader(name:"${index+1}", width: 30),
+
+
+                              //Company Name
+                              TableHeader(name: "${data.company}", width: 150),
+
+
+
+                              //Payment Method
+                              TableHeader(name: "${data.paymentMethod}", width: 120),
+
+
+                              //Delivery Address
+                              TableHeader(name: "${data.userDeliveryAddress!.postCode}, ${data.userDeliveryAddress!.city}, ${data.userDeliveryAddress!.address}", width: 250),
+
+
+                              //status
+                              InkWell(
+                                onTap: (){},
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    width: 120,
+                                    padding: const EdgeInsets.all(5),
+                                    margin:const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(100),
+                                        color: Colors.green.withOpacity(0.2),
+                                        border: Border.all(width: 1, color: Colors.green)
+                                    ),
+                                    child: Center(
+                                      child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              //Date Time
+                              TableHeader(name: "${data.deliveryDate}", width: 120),
+
+
+                              //Action button
+                              SizedBox(
+                                width: 50,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: IconButton(onPressed: (){
+                                    setState(() {
+                                      _selectedOrderId= data.id.toString();
+                                      isSingleOrder = true;
+                                    });
+                                  }, icon:const Icon(Icons.visibility,color: Colors.green,)),
+                                ),
+                              ),
 
 
 
@@ -111,15 +150,26 @@ class _CancelOrderListState extends State<CancelOrderList> {
 
 
 
-                    ],
-                  ),
-                );
-              },
+
+
+
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }else{
+                    return Center(child: Text("No Data Found"));
+                  }
+
+                }
+                ),
+              ) ,
+              onSearch: (){},
+              searchController: _searchController,
+
             ),
-          ) ,
-          onSearch: (){},
-          searchController: _searchController,
-
+          ],
         ),
 
       ),

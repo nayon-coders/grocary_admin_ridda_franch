@@ -84,12 +84,13 @@ class wallets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(width: width > 360 ? 30 : 10),
-                SvgPicture.asset(
-                  profiteimage,
-                  height: 20, width: 20,
-                ),
-                Container(width: 10),
+                Container(width: width > 360 ? 15 : 10),
+                // Image.asset(
+                //   profiteimage,
+                //   width: 20,
+                //   height: 20,
+                // ),
+               // Container(width: 10),
                 Text(
                   "$subTitle",
                   overflow: TextOverflow.ellipsis,

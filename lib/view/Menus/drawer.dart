@@ -3,11 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:minia_web_project/data/global/global_variable.dart';
+import 'package:minia_web_project/main.dart';
 import 'package:minia_web_project/view/Authentication/pages/log_out.dart';
 import 'package:minia_web_project/view/Menus/large.screen.menus.dart';
 import '../../comman/colors.dart';
 import '../../controller/dashboard_controller.dart';
 import '../../controller/sidebar_controller.dart';
+import '../Authentication/controller/login.controller.dart';
+import '../OrderManagement/controller/order.management.controller.dart';
+import '../ProductManagement/controller/category.controller.dart';
+import '../ProductManagement/controller/postcode.controller.dart';
+import '../ProductManagement/controller/product.controller.dart';
 
 class SideBarPage extends StatefulWidget {
   const SideBarPage({super.key});
@@ -79,6 +86,7 @@ class _SideBarPageState extends State<SideBarPage> {
   //
   //  //small device
   Drawer smallDrawer() {
+    var width = MediaQuery.of(context).size.width;
     return Drawer(
       child: SingleChildScrollView(
         physics: ScrollPhysics(),
@@ -95,278 +103,387 @@ class _SideBarPageState extends State<SideBarPage> {
                     physics: ScrollPhysics(),
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svg/minia_logo.svg",
-                              fit: BoxFit.contain,
-                              height: 25,
-                              width: 25,
-                            ),
-                            Container(width: 10),
-                            Text(
-                              "Minia",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            ),
-                            Spacer(),
-                            InkWell(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: Icon(Icons.menu)),
-                          ],
-                        ),
+                          padding: EdgeInsets.all(20),
+                          child: Image.asset("assets/image/logo.png" , width: 100, height: 40,)
                       ),
                       Container(height: 25),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
                           "Menu",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                       ),
                       Container(height: 10),
-                     //single menu
+
                       CommanListTile(
                         minWidth: 40,
                         text: "Dashboard",
-                        icon: "assets/svg/dashboard/home_non.svg",
-                        color: controller.index.value == 0
-                            ? AppColor.selecteColor
-                            : null,
+                        icon: Icons.dashboard,
+                        color:
+                        controller.index.value == 0 ? AppColor.selecteColor : null,
                         onTap: () {
                           controller.index.value = 0;
-                          Get.back();
+                          controller.isDashboard.value = true;
+                          print("controller.isDashboard.value --- ${controller.isDashboard.value}");
+
+
                         },
                         selected: controller.index.value == 0,
                       ),
-                      //multipol selection
-                      ExpansionListCustom(
-                        title: "Apps",
-                        icon: "assets/svg/dashboard/grid_box.svg",
-                        color: controller.index.value == 1
-                            ? AppColor.selecteColor
-                            : null,
-                        children: [
-                          Menu(
-                            text: 'Calender',
-                            color: controller.index.value == 1
-                                ? AppColor.selecteColor
-                                : null,
-                            onTap: () {
-                              controller.index.value = 1;
-                              Get.back();
-                            },
-                          ),
-                          Menu(
-                            text: 'Chat',
-                            color: controller.index.value == 2
-                                ? AppColor.selecteColor
-                                : null,
-                            onTap: () {
-                              controller.index.value = 2;
-                              Get.back();
-                            },
-                          ),
-                          ExpansionListCustom(
-                            title: "Email",
-                            icon: "",
-                            color: controller.index.value == 3
-                                ? AppColor.selecteColor
-                                : null,
-                            children: [
-                              SubMenu(
-                                subtext: "Inbox",
-                                color: controller.index.value == 3
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 3;
-                                  Get.back();
-                                },
-                              ),
-                              SubMenu(
-                                subtext: "Read Email",
-                                color: controller.index.value == 4
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 4;
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          ),
-                          ExpansionListCustom(
-                            title: "Invoices",
-                            color: controller.index.value == 5
-                                ? AppColor.selecteColor
-                                : null,
-                            children: [
-                              SubMenu(
-                                subtext: "Invoice List",
-                                color: controller.index.value == 5
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 5;
-                                  Get.back();
-                                },
-                              ),
-                              SubMenu(
-                                subtext: "Invoice Detail",
-                                color: controller.index.value == 6
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 6;
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          ),
-                          ExpansionListCustom(
-                            title: "Contacts",
-                            color: controller.index.value == 7
-                                ? AppColor.selecteColor
-                                : null,
-                            children: [
-                              SubMenu(
-                                subtext: "User Grid",
-                                color: controller.index.value == 7
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 7;
-                                  Get.back();
-                                },
-                              ),
-                              SubMenu(
-                                subtext: "User List",
-                                color: controller.index.value == 8
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 8;
-                                  Get.back();
-                                },
-                              ),
-                              SubMenu(
-                                subtext: "Profile",
-                                color: controller.index.value == 9
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 9;
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          ),
-                          ExpansionListCustom(
-                            title: "Blog",
 
-                            // icon: "assets/svg/dashboard/grid_box.svg",
-                            color: controller.index.value == 10
-                                ? AppColor.selecteColor
-                                : null,
-                            children: [
-                              SubMenu(
-                                subtext: "Blog Grid",
-                                color: controller.index.value == 10
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 10;
-                                  Get.back();
-                                },
-                              ),
-                              SubMenu(
-                                subtext: "Blog List",
-                                color: controller.index.value == 11
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 11;
-                                  Get.back();
-                                },
-                              ),
-                              SubMenu(
-                                subtext: "Blog Details",
-                                color: controller.index.value == 12
-                                    ? AppColor.selecteColor
-                                    : null,
-                                onTap: () {
-                                  controller.index.value = 12;
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          ),
+
+
+
+                      //product management
+                      // Product Management
+                      ExpansionListCustom(
+                        onTap: () {
+                          controller.isDashboard.value = false;
+                        },
+                        isSeleteed: controller.index.value == 1,
+                        title: "Product Management",
+                        icon: Icons.production_quantity_limits,
+                        color: controller.index.value == 1 ? AppColor.selecteColor : null,
+                        children: [
+                          if (controller.hasPermission(1)) // Check permission for "All Products"
+                            Menu(
+                              text: 'All product',
+                              color: controller.index.value == 1 ? AppColor.selecteColor : null,
+                              onTap: () {
+                                Get.put(ProductController()); // Inject Product controller
+                                controller.index.value = 1;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+                          if (controller.hasPermission(2)) // Check permission for "Add New Product"
+                            Menu(
+                              text: 'Add new product',
+                              color: controller.index.value == 2 ? AppColor.selecteColor : null,
+                              onTap: () {
+                                Get.put(ProductController());
+                                controller.index.value = 2;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+                          if (controller.hasPermission(3)) // Check permission for "Add New Category"
+                            Menu(
+                              text: 'Add new category',
+                              color: controller.index.value == 3 ? AppColor.selecteColor : null,
+                              onTap: () {
+                                Get.put(CategoryController()); // Inject Category controller
+                                controller.index.value = 3;
+
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+                          if (controller.hasPermission(4)) // Check permission for "Add Post Code"
+                            Menu(
+                              text: 'Add post code',
+                              color: controller.index.value == 4 ? AppColor.selecteColor : null,
+                              onTap: () {
+                                Get.put(PostCodeController()); // Inject PostCode controller
+                                controller.index.value = 4;
+
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
                         ],
                       ),
 
 
 
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Container(
-                          height: 276,
-                          decoration: BoxDecoration(
-                            color: AppColor.selecteColor.withOpacity(.10),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(height: 20),
-                              Image.asset(
-                                "assets/image/gift.png",
-                                fit: BoxFit.cover,
-                              ),
-                              Container(height: 22),
-                              Text(
-                                "Unlimited Access",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: AppColor.selecteColor,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Container(height: 7),
-                              Text(
-                                """Upgrade your plan from a 
-            Free trial, to select 
-            ‘Business Plan’.""",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: AppColor.dark,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              Container(height: 23),
-                              Container(
-                                height: 38,
-                                width: 110,
-                                decoration: BoxDecoration(
-                                  color: AppColor.selecteColor,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Upgrade Now",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: AppColor.mainbackground,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      //Order management
+                      ExpansionListCustom(
+                        onTap: ()=>controller.isDashboard.value = false,
+                        isSeleteed: controller.index.value == 5,
+                        title: "Order Management",
+                        icon: Icons.list_alt,
+                        color:
+                        controller.index.value == 5 ? AppColor.selecteColor : null,
+                        children: [
+                          if (controller.hasPermission(5)) // Check permission for "All Products"
+                            Menu(
+                              text: 'All Orders',
+                              color: controller.index.value == 5
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                Get.put(OrderManagementController());
+                                controller.index.value = 5;
+
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+                          if (controller.hasPermission(6)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Reçue en Attente', //Received Pending
+                              color: controller.index.value == 6
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 6;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+                          if (controller.hasPermission(7)) // Check permission for "All Products"
+                            Menu(
+                              text: 'En Préparation', //In Preparation accept
+                              color: controller.index.value == 7
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 7;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          if (controller.hasPermission(8)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Prête pour Dispatch', //Ready for Dispatch
+                              color: controller.index.value == 8
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 8;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          if (controller.hasPermission(9)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Livré', //In Delivery
+                              color: controller.index.value == 9
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+
+                                controller.index.value = 9;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+
+                          if (controller.hasPermission(10)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Annulé', //cancel order
+                              color: controller.index.value == 10
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 10;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+
+                          if (controller.hasPermission(11)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Terminé', //To be Paid
+                              color: controller.index.value == 11
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 11;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                        ],
                       ),
+
+
+                      //User management
+                      ExpansionListCustom(
+                        onTap: ()=>controller.isDashboard.value = false,
+                        isSeleteed: controller.index.value == 12,
+                        title: "User Management",
+                        icon: Icons.people_alt_outlined,
+                        color:
+                        controller.index.value == 12 ? AppColor.selecteColor : null,
+                        children: [
+                          if (controller.hasPermission(13)) // Check permission for "All Products"
+                            Menu(
+                              text: 'New Users',
+                              color: controller.index.value == 13
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 13;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          if (controller.hasPermission(14)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Accepted User',
+                              color: controller.index.value == 14
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 14;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          if (controller.hasPermission(15)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Block Users',
+                              color: controller.index.value == 15
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 15;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          // Menu(
+                          //   text: 'Add New User',
+                          //   color: controller.index.value == 12
+                          //       ? AppColor.selecteColor
+                          //       : null,
+                          //   onTap: () {
+                          //     controller.index.value = 12;
+                          //     width < 983 ? controller.expandOrShrinkDrawer() : null;
+                          //   },
+                          // ),
+
+                        ],
+                      ),
+
+
+                      //admin management
+                      ExpansionListCustom(
+                        onTap: ()=>controller.isDashboard.value = false,
+                        isSeleteed: controller.index.value == 16,
+                        title: "Admin Management",
+                        icon: Icons.admin_panel_settings_outlined,
+                        color:
+                        controller.index.value == 16 ? AppColor.selecteColor : null,
+                        children: [
+                          if (controller.hasPermission(16)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Add new admin',
+                              color: controller.index.value == 16
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 16;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          if (controller.hasPermission(17)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Admin List',
+                              color: controller.index.value == 17
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 17;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+
+                        ],
+                      ),
+
+
+                      //Site setting management
+                      ExpansionListCustom(
+                        onTap: ()=>controller.isDashboard.value = false,
+                        isSeleteed: controller.index.value == 18,
+                        title: "App Setting",
+                        icon: Icons.settings,
+                        color:
+                        controller.index.value == 18 ? AppColor.selecteColor : null,
+                        children: [
+                          if (controller.hasPermission(18)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Site Settings',
+                              color: controller.index.value == 18
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 18;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+                          if (controller.hasPermission(19)) // Check permission for "All Products"
+                            Menu(
+                              text: 'Page Setting',
+                              color: controller.index.value == 19
+                                  ? AppColor.selecteColor
+                                  : null,
+                              onTap: () {
+                                controller.index.value = 19;
+                                width < 983 ? controller.expandOrShrinkDrawer() : null;
+                              },
+                            ),
+
+
+                        ],
+                      ),
+
+
+
+
+//               Padding(
+//                 padding: const EdgeInsets.all(24),
+//                 child: Container(
+//                   height: 276,
+//                   decoration: BoxDecoration(
+//                     color: AppColor.selecteColor.withOpacity(.10),
+//                     borderRadius: BorderRadius.circular(5),
+//                   ),
+//                   child: Column(
+//                     children: [
+//                       Container(height: 20),
+//                       Image.asset("assets/image/gift.png", fit: BoxFit.cover),
+//                       Container(height: 22),
+//                       Text(
+//                         "Unlimited Access",
+//                         style: TextStyle(
+//                             fontSize: 16,
+//                             color: AppColor.selecteColor,
+//                             fontWeight: FontWeight.w600),
+//                       ),
+//                       Container(height: 7),
+//                       Text(
+//                         """Upgrade your plan from a
+// Free trial, to select
+// ‘Business Plan’.""",
+//                         textAlign: TextAlign.center,
+//                         style: TextStyle(
+//                             fontSize: 13,
+//                             color: AppColor.dark,
+//                             fontWeight: FontWeight.w400),
+//                       ),
+//                       Container(height: 23),
+//                       Container(
+//                         height: 38,
+//                         width: 110,
+//                         decoration: BoxDecoration(
+//                           color: AppColor.selecteColor,
+//                           borderRadius: BorderRadius.circular(4),
+//                         ),
+//                         child: Center(
+//                           child: Text(
+//                             "Upgrade Now",
+//                             style: TextStyle(
+//                                 fontSize: 14,
+//                                 color: AppColor.mainbackground,
+//                                 fontWeight: FontWeight.w400),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
                     ],
                   ),
                 ),
@@ -395,10 +512,7 @@ class _SideBarPageState extends State<SideBarPage> {
           color: AppColor.selecteColor.withOpacity(.10),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: SvgPicture.asset(
-              "assets/svg/minia_logo.svg",
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset("assets/image/logo.png"),
           ),
         ),
         title: Container(
@@ -417,11 +531,7 @@ class _SideBarPageState extends State<SideBarPage> {
                 ),
               ),
               Spacer(),
-              width > 600 ? Localzations() : Container(),
-              Container(width: 20),
-              width > 984 ? GridButtonAppbar() : Container(),
-              _offsetPopup(width), // for notifications
-              Container(width: 10),
+
               _offsetProfile(width),
             ],
           ),
@@ -453,50 +563,9 @@ class _SideBarPageState extends State<SideBarPage> {
                       )
                     : Container(),
                 Container(width: 15),
-                if (width > 650)
-                  Container(
-                    height: 40,
-                    width: 223,
-                    child: TextFormField(
-                        decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      hintText: "search...",
-                      hintStyle: TextStyle(fontSize: 14, color: AppColor.black),
-                      fillColor: AppColor.textfiledcolor,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(6),
-                        ),
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.only(
-                            right: 6,
-                            top: 4,
-                            bottom: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColor.searchbackground,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(4),
-                            ),
-                          ),
-                          child:
-                              SvgPicture.asset("assets/svg/topbar_search.svg"),
-                        ),
-                      ),
-                    )),
-                  ),
+                Text("You are: ${sharedPreferences!.getString("role") ?? "nayon "} " ),
+
                 Spacer(),
-                Localzations(), // for language change
-                Container(width: 10),
-                GridButtonAppbar(),
-                _offsetPopup(width), // for notifications
-                Container(width: 10),
                 _offsetProfile(width),
                 Container(width: width > 1200 ? 35 : 20),
               ],
@@ -507,62 +576,8 @@ class _SideBarPageState extends State<SideBarPage> {
     );
   }
 
-  Widget GridButtonAppbar() => PopupMenuButton<int>(
-        padding: EdgeInsets.zero,
-        constraints: BoxConstraints(
-          minHeight: 50,
-          maxHeight: 325,
-          minWidth: 300,
-          maxWidth: 330,
-        ),
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            padding: EdgeInsets.only(left: 30, top: 25, bottom: 20, right: 30),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Gridbutton(
-                  image: "assets/image/appbar/github.png",
-                  text: "GitHub",
-                ),
-                Gridbutton(
-                  image: "assets/image/appbar/bitbucket.png",
-                  text: "BitBucket",
-                ),
-                Gridbutton(
-                  image: "assets/image/appbar/dribbble.png",
-                  text: "Dribbble",
-                ),
-              ],
-            ),
-          ),
-          PopupMenuItem(
-            padding: EdgeInsets.only(left: 25, top: 16, bottom: 25, right: 30),
-            child: Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Gridbutton(
-                  image: "assets/image/appbar/dropbox.png",
-                  text: "DropBox",
-                ),
-                Gridbutton(
-                  image: "assets/image/appbar/mail_chimp.png",
-                  text: "Mail Chimp",
-                ),
-                Gridbutton(
-                  image: "assets/image/appbar/slack.png",
-                  text: "   Slack   ",
-                ),
-              ],
-            ),
-          ),
-        ],
-        icon: Icon(Icons.grid_view_outlined, color: AppColor.black),
-        offset: Offset(0, 56),
-      );
 
+  final loginController = Get.find<LoginController>();
   Widget _offsetProfile(width) => PopupMenuButton<String>(
         padding: EdgeInsets.zero,
         constraints: BoxConstraints(
@@ -572,46 +587,6 @@ class _SideBarPageState extends State<SideBarPage> {
           maxWidth: 165,
         ),
         itemBuilder: (context) => [
-          PopupMenuItem(
-            onTap: () {
-              controller.index.value = 9;
-            },
-            height: 35,
-            padding: EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Icon(Icons.face, size: 15),
-                Container(width: 5),
-                Text(
-                  "Profile",
-                  style: TextStyle(
-                    fontSize: 13.5,
-                    color: AppColor.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )
-              ],
-            ),
-          ),
-          PopupMenuItem(
-            value: 'lock',
-            height: 35,
-            padding: EdgeInsets.only(left: 20.0),
-            child: Row(
-              children: [
-                Icon(Icons.lock, size: 15),
-                Container(width: 5),
-                Text(
-                  "Lock Screen",
-                  style: TextStyle(
-                    fontSize: 13.5,
-                    color: AppColor.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )
-              ],
-            ),
-          ),
           PopupMenuItem(
             value: 'logout',
             height: 38,
@@ -667,15 +642,18 @@ class _SideBarPageState extends State<SideBarPage> {
                         width: 35,
                       ),
                       Container(width: 6),
-                      Expanded(
-                        child: Text(
-                          "Shawn Lapid",
-                          style: TextStyle(
-                              fontSize: 13.5,
-                              color: AppColor.black,
-                              fontWeight: FontWeight.w500),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      Obx((){
+                          return Expanded(
+                            child: Text(
+                              "${loginController.myprofiel.value.firstName} ${loginController.myprofiel.value.lastName}",
+                              style: TextStyle(
+                                  fontSize: 13.5,
+                                  color: AppColor.black,
+                                  fontWeight: FontWeight.w500),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }
                       ),
                       Container(width: 10),
                       Icon(Icons.keyboard_arrow_down_rounded, size: 15)
@@ -1483,7 +1461,7 @@ class bottomText extends StatelessWidget {
             Expanded(
               flex: 6,
               child: Text(
-                "2023 © Minia.",
+                "2024 © Commando.",
                 style: TextStyle(
                     overflow: TextOverflow.clip,
                     fontSize: 14,
@@ -1517,7 +1495,7 @@ class bottomText extends StatelessWidget {
                         text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
-                              text: 'Themesbrand',
+                              text: 'Ridda',
                               style: TextStyle(
                                   overflow: TextOverflow.clip,
                                   fontSize: 14,
@@ -1538,11 +1516,12 @@ class bottomText extends StatelessWidget {
 
 class CommanListTile extends StatelessWidget {
   final String text;
-  final String? icon;
+  final IconData? icon;
   final VoidCallback onTap;
   final dynamic selected;
   final dynamic color;
   final double minWidth;
+  final bool? isSelected;
 
   const CommanListTile({
     super.key,
@@ -1552,33 +1531,39 @@ class CommanListTile extends StatelessWidget {
     this.selected,
     required this.color,
     required this.minWidth,
+     this.isSelected
   });
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      dense: true,
-      selectedColor: AppColor.selecteColor,
-      title: Text(
-        text.tr,
-        style: TextStyle(
-            overflow: TextOverflow.clip,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            letterSpacing: 0.5),
+    SideBarController sideBarController = Get.find();
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+        color: sideBarController.isDashboard.value ? AppColor.selecteColor.withOpacity(0.2) : Colors.transparent,
       ),
-      contentPadding: EdgeInsets.zero,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
-        child: SvgPicture.asset(
-          icon!,
-          fit: BoxFit.cover,
-          height: 17,
-          width: 22,
-          color: color,
+      child: ListTile(
+        dense: true,
+        selectedColor: AppColor.selecteColor,
+        title: Text(
+          text.tr,
+          style: TextStyle(
+              overflow: TextOverflow.clip,
+              fontSize: 14,
+
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.5),
         ),
+        contentPadding: EdgeInsets.zero,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: Icon(icon,
+
+              size: 20
+          )
+        ),
+        onTap: onTap,
+        selected: selected,
       ),
-      onTap: onTap,
-      selected: selected,
     );
   }
 }
@@ -1629,7 +1614,9 @@ class ExpansionListTile extends StatelessWidget {
 
 class ExpansionListCustom extends StatefulWidget {
   final String title;
-  final String? icon;
+  final VoidCallback onTap;
+  final IconData? icon;
+  final bool isSeleteed;
   final dynamic selected;
   final dynamic color;
   final dynamic children;
@@ -1640,6 +1627,7 @@ class ExpansionListCustom extends StatefulWidget {
     this.color,
     this.children,
     this.icon,
+   required this.isSeleteed, required this.onTap
   });
 
   @override
@@ -1653,61 +1641,64 @@ class _ExpansionListCustomState extends State<ExpansionListCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileTheme(
-      dense: true,
-      //  data:
-      child: Theme(
-        data: ThemeData().copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          onExpansionChanged: (bool isExpanded) {
-            setState(() {
-              _isExpanded = isExpanded;
-            });
-          },
-          trailing: _isExpanded
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: SvgPicture.asset(
-                    "assets/svg/dashboard/down_arrow.svg",
-                    height: 8,
-                    width: 8,
-                    fit: BoxFit.cover,
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: AppColor.notselecteColor,
-                    size: 12,
-                  ),
+    return InkWell(
+      onTap: widget.onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: _isExpanded ? AppColor.selecteColor.withOpacity(0.2) : Colors.transparent,
+        ),
+        child: ListTileTheme(
+          dense: true,
+          //  data:
+          child: Theme(
+            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              onExpansionChanged: (bool isExpanded) {
+                controller.isDashboard.value = false;
+                setState(() {
+
+                  _isExpanded = isExpanded;
+                });
+
+              },
+              trailing: _isExpanded
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: Icon(Icons.keyboard_arrow_down,)
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColor.notselecteColor,
+                        size: 12,
+                      ),
+                    ),
+              // collapsedIconColor: AppColor.black,
+              textColor: AppColor.searchbackground,
+              iconColor: AppColor.searchbackground,
+              tilePadding: EdgeInsets.zero,
+              title: Text(
+                widget.title.tr,
+                style: TextStyle(
+                  overflow: TextOverflow.clip,
+                  fontSize: 14,
+                  //color: _isExpanded ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5,
                 ),
-          // collapsedIconColor: AppColor.black,
-          textColor: AppColor.searchbackground,
-          iconColor: AppColor.searchbackground,
-          tilePadding: EdgeInsets.zero,
-          title: Text(
-            widget.title.tr,
-            style: TextStyle(
-              overflow: TextOverflow.clip,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.5,
+              ),
+              children: widget.children,
+              leading: widget.icon != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 0.0),
+                      child: Icon(widget.icon,
+                      //color:_isExpanded? Colors.white : AppColor.selecteColor,
+                      ),
+                    )
+                  : Container(width: 0.0),
             ),
           ),
-          children: widget.children,
-          leading: widget.icon != null && widget.icon!.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 0.0),
-                  child: SvgPicture.asset(
-                    widget.icon!,
-                    fit: BoxFit.cover,
-                    height: 17,
-                    width: 22,
-                    color: _isExpanded ? AppColor.searchbackground : null,
-                  ),
-                )
-              : Container(width: 0.0),
         ),
       ),
     );
