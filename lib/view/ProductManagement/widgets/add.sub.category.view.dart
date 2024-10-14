@@ -112,6 +112,18 @@ class AddSubCategoryView extends GetView<CategoryController> {
               return AppButton(
                 isLoading: controller.isAddingSubCat.value,
                   onClick: ()async{
+                  if(controller.subCategoryName.value.text.isEmpty){
+                    Get.snackbar("Error", "Please enter sub category name", backgroundColor: Colors.red);
+                    return;
+                  }
+                  if(controller.mainCatId.value.isEmpty){
+                    Get.snackbar("Error", "Please select category", backgroundColor: Colors.red);
+                    return;
+                  }
+                  if(controller.subCatImage.value == null){
+                    Get.snackbar("Error", "Please select image", backgroundColor: Colors.red);
+                    return;
+                  }
                   await controller.addSubCategory(controller.subCatImage.value);
                   },
                   text: "Add"

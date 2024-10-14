@@ -6,7 +6,7 @@ import 'package:minia_web_project/main.dart';
 import 'package:minia_web_project/view/AdminManagement/screen/add.new.admin.dart';
 import 'package:minia_web_project/view/AppSetting/app.pages.dart';
 import 'package:minia_web_project/view/AppSetting/site.setting.dart';
-import 'package:minia_web_project/view/OrderManagement/screens/accept.orders.dart';
+import 'package:minia_web_project/view/OrderManagement/screens/enprepartion.dart';
 import 'package:minia_web_project/view/OrderManagement/screens/all.orders.screen.dart';
 import 'package:minia_web_project/view/OrderManagement/screens/cancel.order.list.dart';
 import 'package:minia_web_project/view/OrderManagement/screens/delivery.order.list.dart';
@@ -23,7 +23,7 @@ import 'package:minia_web_project/view/user_management/screen/new.user.dart';
 import 'package:minia_web_project/view/user_management/screen/user_list.dart';
 import '../view/AdminManagement/screen/admin.list.dart';
 import '../view/Authentication/controller/login.controller.dart';
-import '../view/OrderManagement/screens/complete.order.list.dart';
+import '../view/OrderManagement/screens/termine.order.list.dart';
 import '../view/dashboard/screen/dashboard.dart';
 import '../view/user_management/controller/user.controller.dart';
 class SideBarController extends GetxController {
@@ -248,7 +248,7 @@ class SideBarController extends GetxController {
 // import 'package:minia_web_project/view/AdminManagement/screen/add.new.admin.dart';
 // import 'package:minia_web_project/view/AppSetting/app.pages.dart';
 // import 'package:minia_web_project/view/AppSetting/site.setting.dart';
-// import 'package:minia_web_project/view/OrderManagement/screens/accept.orders.dart';
+// import 'package:minia_web_project/view/OrderManagement/screens/enprepartion.dart';
 // import 'package:minia_web_project/view/OrderManagement/screens/all.orders.screen.dart';
 // import 'package:minia_web_project/view/OrderManagement/screens/cancel.order.list.dart';
 // import 'package:minia_web_project/view/OrderManagement/screens/delivery.order.list.dart';
@@ -265,7 +265,7 @@ class SideBarController extends GetxController {
 // import 'package:minia_web_project/view/user_management/screen/user_list.dart';
 // import '../view/AdminManagement/screen/admin.list.dart';
 // import '../view/Authentication/controller/login.controller.dart';
-// import '../view/OrderManagement/screens/complete.order.list.dart';
+// import '../view/OrderManagement/screens/termine.order.list.dart';
 // import '../view/dashboard/screen/dashboard.dart';
 // import '../view/user_management/controller/user.controller.dart';
 

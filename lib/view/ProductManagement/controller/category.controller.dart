@@ -59,6 +59,8 @@ class CategoryController extends GetxController{
      var response = await ApiService().postApi(AppConfig.CATEGORY_MAIN_ADD, data);
 
       if (response.statusCode == 200) {
+        clearImage();
+        clearInputText();
         getMainCategory();
         Get.snackbar("Success!", "Category create success!", backgroundColor: Colors.green);
       } else {
@@ -97,10 +99,12 @@ class CategoryController extends GetxController{
       var response = await ApiService().putApi(AppConfig.CATEGORY_MAIN_UPDATE+"$selectedId" ,  data, );
 
       if (response.statusCode == 200) {
-        getMainCategory();
-        Get.snackbar("Success!", "Category update success!", backgroundColor: Colors.green);
+        isLoading.value = false;
         clearImage();
         clearInputText();
+        getMainCategory();
+        Get.snackbar("Success!", "Category update success!", backgroundColor: Colors.green);
+
       } else {
         // Handle error
         Get.snackbar("Error!", "Error uploading image: ${response.statusCode}", backgroundColor: Colors.red);
@@ -165,6 +169,7 @@ class CategoryController extends GetxController{
       );
       // Handle the response
       if (response.statusCode == 200) {
+        isAddingSubCat.value = false;
         getMainCategory();
         clearImage();
         clearInputText();
@@ -204,8 +209,8 @@ class CategoryController extends GetxController{
 
 
   clearImage(){
-    mainCatImage.value!.clear();
-    subCatImage.value!.clear();
+    mainCatImage.value = null;
+    subCatImage.value = null;
   }
 
   clearInputText(){

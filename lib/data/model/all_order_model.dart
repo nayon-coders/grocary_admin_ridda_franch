@@ -11,7 +11,7 @@ String allOrderModelToJson(AllOrderModel data) => json.encode(data.toJson());
 class AllOrderModel {
   final bool? success;
   final int? totalOrders;
-  final List<Datum>? data;
+  final List<OrderItem>? data;
 
   AllOrderModel({
     this.success,
@@ -22,7 +22,7 @@ class AllOrderModel {
   factory AllOrderModel.fromJson(Map<String, dynamic> json) => AllOrderModel(
     success: json["success"],
     totalOrders: json["totalOrders"],
-    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    data: json["data"] == null ? [] : List<OrderItem>.from(json["data"]!.map((x) => OrderItem.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,7 +32,7 @@ class AllOrderModel {
   };
 }
 
-class Datum {
+class OrderItem {
   final int? id;
   final String? company;
   final int? createdBy;
@@ -47,10 +47,10 @@ class Datum {
   final int? userDeliveryAddressId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final List<Product>? products;
+  final List<OrderProductItem>? products;
   final UserDeliveryAddress? userDeliveryAddress;
 
-  Datum({
+  OrderItem({
     this.id,
     this.company,
     this.createdBy,
@@ -69,7 +69,7 @@ class Datum {
     this.userDeliveryAddress,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
     id: json["id"],
     company: json["company"],
     createdBy: json["created_by"],
@@ -84,7 +84,7 @@ class Datum {
     userDeliveryAddressId: json["user_delivery_address_id"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    products: json["products"] == null ? [] : List<Product>.from(json["products"]!.map((x) => Product.fromJson(x))),
+    products: json["products"] == null ? [] : List<OrderProductItem>.from(json["products"]!.map((x) => OrderProductItem.fromJson(x))),
     userDeliveryAddress: json["user_delivery_address"] == null ? null : UserDeliveryAddress.fromJson(json["user_delivery_address"]),
   );
 
@@ -108,14 +108,14 @@ class Datum {
   };
 }
 
-class Product {
+class OrderProductItem {
   final int? productId;
   final String? name;
   final int? quantity;
   final double? price;
   final List<Image>? images;
 
-  Product({
+  OrderProductItem({
     this.productId,
     this.name,
     this.quantity,
@@ -123,7 +123,7 @@ class Product {
     this.images,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory OrderProductItem.fromJson(Map<String, dynamic> json) => OrderProductItem(
     productId: json["product_id"],
     name: json["name"],
     quantity: json["quantity"],

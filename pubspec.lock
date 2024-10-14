@@ -878,7 +878,7 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: b27217933eeeba8ff24845c34003b003b2b22151de3c908d0e679e8fe1aa078b
@@ -1267,7 +1267,7 @@ packages:
     source: hosted
     version: "21.2.10"
   syncfusion_flutter_xlsio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_xlsio
       sha256: "658d9da5b8e3d915ec8c1ba410c705f974e9636ddda782e97c7bb647f256bc8f"

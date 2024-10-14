@@ -95,7 +95,7 @@ class OrdersBox extends StatelessWidget {
               width: width,
               text: "Livré Orders",
               subTitle: "Total Livré orders",
-              amounts: "${controller.totalDeliveredOrder.length}",
+              amounts: "${controller.totalTerminOrders.length}",
               profiteimage: "",
               data: [
                 -0.5,

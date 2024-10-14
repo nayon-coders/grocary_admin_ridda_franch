@@ -37,6 +37,7 @@ class ProductController extends GetxController{
 
 
   Rx<ProductListModel> productListModel = ProductListModel().obs;
+  RxList searchResults = [].obs;
   Rx<SingleProducts> selectedSingleProductListModel = SingleProducts().obs;
 
 
@@ -62,6 +63,23 @@ class ProductController extends GetxController{
     }
     isGettingData.value = false;
 
+  }
+
+
+  // New method to search orders by company name
+  void searchOrderByCompanyName(String companyName) {
+    print("searching for $companyName");
+    if (companyName.isEmpty) {
+      // If the search input is empty, return all orders
+      searchResults.value = productListModel.value.data!;
+    } else {
+      // Filter the orders based on the company name
+      searchResults.value = productListModel.value.data!.where((order) =>
+          order.name!.toLowerCase().contains(companyName.toLowerCase()) // Assuming companyName is a field in OrderModel
+      ).toList(); // Convert the Iterable to a List
+    }
+    print("searching for $searchResults");
+    update();
   }
 
 

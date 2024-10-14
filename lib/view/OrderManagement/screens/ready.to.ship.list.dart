@@ -51,7 +51,7 @@ class _ReadyToShipOrderListState extends State<ReadyToShipOrderList> {
             SizedBox(height: 20,),
             AppTable(
               //pageLength: controller.allOrderModel.value.totalOrders!,
-              title: "Terminé",
+              title: "Prête pour Dispatch",
               headersChildren:const [
                 TableHeader(name: "ID", width: 30),
                 TableHeader(name: "Company name", width: 150),
@@ -67,82 +67,152 @@ class _ReadyToShipOrderListState extends State<ReadyToShipOrderList> {
                 child: Obx(() {
                   if(controller.isGettingData.value){
                     return Center(child: CircularProgressIndicator(),);
-                  }else if(controller.totalCompleteOrder.value.isNotEmpty){
-                    return ListView.builder(
-                      //data length
-                      itemCount: controller.totalCompleteOrder.value.length,
-                      itemBuilder: (context, index){
-                        //store data variable
-                        var data = controller.totalCompleteOrder.value![index] ;
-                        return Container(
-                          height: 56,
-                          margin:const EdgeInsets.only(bottom:5,top: 5),
-                          padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
-                          decoration: BoxDecoration(
-                            color:index.isEven?Colors.grey.shade100: Colors.grey.shade50,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-
-
-
-                              //Id
-                              TableHeader(name:"${index+1}", width: 30),
-
-
-                              //Company Name
-                              TableHeader(name: "${data.company}", width: 150),
-
-
-
-                              //Payment Method
-                              TableHeader(name: "${data.paymentMethod}", width: 120),
-
-
-                              //Delivery Address
-                              TableHeader(name: "${data.userDeliveryAddress!.postCode}, ${data.userDeliveryAddress!.city}, ${data.userDeliveryAddress!.address}", width: 250),
-
-
-                              //status
-                              InkWell(
-                                onTap: (){},
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    width: 120,
-                                    padding: const EdgeInsets.all(5),
-                                    margin:const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(100),
-                                        color: Colors.green.withOpacity(0.2),
-                                        border: Border.all(width: 1, color: Colors.green)
-                                    ),
-                                    child: Center(
-                                      child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                  }else if(controller.totalDispastOrder.value.isNotEmpty){
+                    //cehck search result is empty or not
+                    if(controller.searchResults.isNotEmpty){
+                      return ListView.builder(
+                        //data length
+                        itemCount: controller.searchResults.length,
+                        itemBuilder: (context, index){
+                          //store data variable
+                          var data = controller.searchResults[index] ;
+                          return Container(
+                            height: 56,
+                            margin:const EdgeInsets.only(bottom:5,top: 5),
+                            padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
+                            decoration: BoxDecoration(
+                              color:index.isEven?Colors.grey.shade100: Colors.grey.shade50,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                //Id
+                                TableHeader(name:"${index+1}", width: 30),
+                                //Company Name
+                                TableHeader(name: "${data.company}", width: 150),
+                                //Payment Method
+                                TableHeader(name: "${data.paymentMethod}", width: 120),
+                                //Delivery Address
+                                TableHeader(name: "${data.userDeliveryAddress!.postCode}, ${data.userDeliveryAddress!.city}, ${data.userDeliveryAddress!.address}", width: 250),
+                                //status
+                                InkWell(
+                                  onTap: (){},
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      width: 120,
+                                      padding: const EdgeInsets.all(5),
+                                      margin:const EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(100),
+                                          color: Colors.green.withOpacity(0.2),
+                                          border: Border.all(width: 1, color: Colors.green)
+                                      ),
+                                      child: Center(
+                                        child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-
-                              //Date Time
-                              TableHeader(name: "${data.deliveryDate}", width: 120),
-
-
-                              //Action button
-                              SizedBox(
-                                width: 50,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: IconButton(onPressed: (){
-                                    setState(() {
-                                      _selectedOrderId= data.id.toString();
-                                      isSingleOrder = true;
-                                    });
-                                  }, icon:const Icon(Icons.visibility,color: Colors.green,)),
+                                //Date Time
+                                TableHeader(name: "${data.deliveryDate}", width: 120),
+                                //Action button
+                                SizedBox(
+                                  width: 50,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: IconButton(onPressed: (){
+                                      setState(() {
+                                        _selectedOrderId= data.id.toString();
+                                        isSingleOrder = true;
+                                      });
+                                    }, icon:const Icon(Icons.visibility,color: Colors.green,)),
+                                  ),
                                 ),
-                              ),
+                              ],
+                            ),
+                          );
+                        },
+
+
+                      );
+                    }else{
+                      return ListView.builder(
+                        //data length
+                        itemCount: controller.totalDispastOrder.length,
+                        itemBuilder: (context, index){
+                          //store data variable
+                          var data = controller.totalDispastOrder[index] ;
+                          return Container(
+                            height: 56,
+                            margin:const EdgeInsets.only(bottom:5,top: 5),
+                            padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
+                            decoration: BoxDecoration(
+                              color:index.isEven?Colors.grey.shade100: Colors.grey.shade50,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+
+
+                                //Id
+                                TableHeader(name:"${index+1}", width: 30),
+
+
+                                //Company Name
+                                TableHeader(name: "${data.company}", width: 150),
+
+
+
+                                //Payment Method
+                                TableHeader(name: "${data.paymentMethod}", width: 120),
+
+
+                                //Delivery Address
+                                TableHeader(name: "${data.userDeliveryAddress!.postCode}, ${data.userDeliveryAddress!.city}, ${data.userDeliveryAddress!.address}", width: 250),
+
+
+                                //status
+                                InkWell(
+                                  onTap: (){},
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      width: 120,
+                                      padding: const EdgeInsets.all(5),
+                                      margin:const EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(100),
+                                          color: Colors.green.withOpacity(0.2),
+                                          border: Border.all(width: 1, color: Colors.green)
+                                      ),
+                                      child: Center(
+                                        child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                //Date Time
+                                TableHeader(name: "${data.deliveryDate}", width: 120),
+
+
+                                //Action button
+                                SizedBox(
+                                  width: 50,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: IconButton(onPressed: (){
+                                      setState(() {
+                                        _selectedOrderId= data.id.toString();
+                                        isSingleOrder = true;
+                                      });
+                                    }, icon:const Icon(Icons.visibility,color: Colors.green,)),
+                                  ),
+                                ),
 
 
 
@@ -153,11 +223,12 @@ class _ReadyToShipOrderListState extends State<ReadyToShipOrderList> {
 
 
 
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
                   }else{
                     return Center(child: Text("No Data Found"));
                   }
@@ -165,7 +236,9 @@ class _ReadyToShipOrderListState extends State<ReadyToShipOrderList> {
                 }
                 ),
               ) ,
-              onSearch: (){},
+              onSearch: (){
+                controller.searchOrderByCompanyName(_searchController.value.text, controller.totalDispastOrder);
+              },
               searchController: _searchController,
 
             ),

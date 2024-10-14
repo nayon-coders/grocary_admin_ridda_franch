@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minia_web_project/data/service/api.service.dart';
@@ -6,7 +8,7 @@ import '../../../app.config.dart';
 import '../../../data/model/all_order_model.dart';
 import '../../../data/model/single_order_model.dart';
 
-class OrderManagementController extends GetxController{
+class OrderManagementController extends GetxController {
 
 
   @override
@@ -18,8 +20,8 @@ class OrderManagementController extends GetxController{
 
   //order status wise list
   RxList totalPendingOrder = [].obs;
-  RxList totalProcessingOrder = [].obs;
-  RxList totalDeliveredOrder = [].obs;
+  RxList totalEnPreparations = [].obs;
+  RxList totalTerminOrders = [].obs;
   RxList totalDispastOrder = [].obs;
   RxList totalCancelOrder = [].obs;
   RxList totalReturnOrder = [].obs;
@@ -32,6 +34,8 @@ class OrderManagementController extends GetxController{
   //models
   Rx<SingleOrderModel> singleOrderModel = SingleOrderModel().obs;
   Rx<AllOrderModel> allOrderModel = AllOrderModel().obs;
+  RxList<OrderItem> exportAllOrderModel = <OrderItem>[].obs;
+  RxList<OrderProductItem> exportTotalProduct = <OrderProductItem>[].obs;
 
   //string
   var orderStatus = "".obs;
@@ -40,28 +44,28 @@ class OrderManagementController extends GetxController{
   var isGettingData = false.obs;
   var isGettingSingleOrder = false.obs;
   var isUpdatingOrderStatus = false.obs;
+
   //list of bool
   var isSelectedProduct = [].obs;
 
   //list of text editing controller
   var textEditingController = [].obs;
+  var searchResults = [].obs;
 
 
   //
   var totalNetIncome = 0.0.obs;
   var upcommingIncom = 0.0.obs;
-  var pendingIncom  = 0.0.obs;
+  var pendingIncom = 0.0.obs;
   var cancelIncom = 0.0.obs;
 
 
-
-
-  getAllOrder()async{
+  getAllOrder() async {
     isGettingData.value = true;
     //all list clear
     totalPendingOrder.clear();
-    totalProcessingOrder.clear();
-    totalDeliveredOrder.clear();
+    totalEnPreparations.clear();
+    totalTerminOrders.clear();
     totalCancelOrder.clear();
     totalReturnOrder.clear();
     totalshippedr.clear();
@@ -71,54 +75,70 @@ class OrderManagementController extends GetxController{
     totalCompleteOrder.clear();
 
 
-
     var response = await ApiService().getApi(AppConfig.ORDER_GET);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       allOrderModel.value = allOrderModelFromJson(response.body);
-      for(var i in allOrderModel.value.data!){
+      for (var i in allOrderModel.value.data!) {
         totalOrder.add(i);
-        if(i.orderStatus == "Reçue en Attente"){
+        if (i.orderStatus == "Reçue en Attente") {
           totalPendingOrder.add(i);
-        }else if(i.orderStatus == "En Préparation"){
-          totalProcessingOrder.add(i);
-        }else if(i.orderStatus == "Prête pour Dispatch"){
+        } else if (i.orderStatus == "En Préparation") {
+          totalEnPreparations.add(i);
+        } else if (i.orderStatus == "Prête pour Dispatch") {
           //total pending income
           pendingIncom.value += i.total!;
           totalDispastOrder.add(i);
-        }else if(i.orderStatus == "Livré"){
-          totalDeliveredOrder.add(i);
-        }else if(i.orderStatus == "return"){
+        } else if (i.orderStatus == "Livré") {
+          totalTerminOrders.add(i); // total delivery order income
+        } else if (i.orderStatus == "return") {
           totalReturnOrder.add(i);
-        }else if(i.orderStatus== "shipped"){
+        } else if (i.orderStatus == "shipped") {
           totalshippedr.add(i);
-        }else if(i.orderStatus == "En cours de Livraison"){
+        } else if (i.orderStatus == "En cours de Livraison") {
           //total upcomming income
-          upcommingIncom.value += i.total!;
-          totalLivraisonOrder.add(i);
-        }else if(i.orderStatus == "À régler"){
+          upcommingIncom.value += i.total!; // upcomming income
+          totalLivraisonOrder.add(i); // total in delivery order
+        } else if (i.orderStatus == "À régler") {
           totalRegulOrder.add(i);
-        }else if(i.orderStatus == "Annulé"){
-          totalCancelOrder.add(i);
-        }else if(i.orderStatus == "Terminé"){
+        } else if (i.orderStatus == "Annulé") {
+          totalCancelOrder.add(i); //cancel order income
+          cancelIncom.value += i.total!; // cancel order income
+        } else if (i.orderStatus == "Terminé") {
           // calulate total net income
           totalNetIncome.value += i.total!;
           totalCompleteOrder.add(i);
         }
       }
-
     }
     isGettingData.value = false;
   }
 
+  // New method to search orders by company name
+  void searchOrderByCompanyName(String companyName,
+      RxList<dynamic> totalOrder) {
+    print("searching for $companyName");
+    if (companyName.isEmpty) {
+      // If the search input is empty, return all orders
+      searchResults.value = totalOrder;
+    } else {
+      // Filter the orders based on the company name
+      searchResults.value = totalOrder.where((order) =>
+          order.company.toLowerCase().contains(companyName
+              .toLowerCase()) // Assuming companyName is a field in OrderModel
+      ).toList(); // Convert the Iterable to a List
+    }
+    print("searching for $searchResults");
+    update();
+  }
 
   //get single order
 
-  getSingleOrder(String id)async{
+  getSingleOrder(String id) async {
     isGettingSingleOrder.value = true;
-    var response = await ApiService().getApi(AppConfig.ORDER_GET_SINGLE+id);
-    if(response.statusCode == 200){
+    var response = await ApiService().getApi(AppConfig.ORDER_GET_SINGLE + id);
+    if (response.statusCode == 200) {
       singleOrderModel.value = singleOrderModelFromJson(response.body);
-      for(var i in singleOrderModel.value.order!.products!){
+      for (var i in singleOrderModel.value.order!.products!) {
         isSelectedProduct.add(false);
         textEditingController.add(TextEditingController());
       }
@@ -126,36 +146,41 @@ class OrderManagementController extends GetxController{
     isGettingSingleOrder.value = false;
   }
 
-  void updateOrderStatus(int? id, String value) async{
+  void updateOrderStatus(int? id, String value) async {
     isUpdatingOrderStatus.value = true;
-    var response = await ApiService().putApi(AppConfig.ORDER_STATUS_UPDATE+id.toString(), {"order_status": value});
-    if(response.statusCode == 200){
+    var response = await ApiService().putApi(
+        AppConfig.ORDER_STATUS_UPDATE + id.toString(), {"order_status": value});
+    if (response.statusCode == 200) {
       getAllOrder();
       getSingleOrder(id.toString());
-      Get.snackbar("Success!", "Order status updated successfully", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.green);
+      Get.snackbar("Success!", "Order status updated successfully",
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.green);
     }
     isUpdatingOrderStatus.value = false;
   }
 
   //order product price update
-  void updateOrderProductPrice(int? id, int index) async{
+  void updateOrderProductPrice(int? id, int index) async {
     isUpdatingOrderStatus.value = true;
 
     List<Map<String, dynamic>> products = [];
 
-    for(int i = 0; i < singleOrderModel.value.order!.products!.length; i++){
-
-      if(i == index){
+    for (int i = 0; i < singleOrderModel.value.order!.products!.length; i++) {
+      if (i == index) {
         products.add({
-          "product_id": singleOrderModel.value.order!.products![i]!.productId!.toString(),
+          "product_id": singleOrderModel.value.order!.products![i]!.productId!
+              .toString(),
           "price": double.parse(textEditingController[i].text).toString(),
-          "quantity": singleOrderModel.value.order!.products![i].quantity.toString()
+          "quantity": singleOrderModel.value.order!.products![i].quantity
+              .toString()
         });
-      }else{
+      } else {
         products.add({
-          "product_id": singleOrderModel.value.order!.products![i].productId!.toString(),
+          "product_id": singleOrderModel.value.order!.products![i].productId!
+              .toString(),
           "price": singleOrderModel.value.order!.products![i].price.toString(),
-          "quantity": singleOrderModel.value.order!.products![i].quantity.toString()
+          "quantity": singleOrderModel.value.order!.products![i].quantity
+              .toString()
         });
       }
     }
@@ -180,15 +205,42 @@ class OrderManagementController extends GetxController{
       "products": products
     };
     print("data: $data");
-    var response = await ApiService().putApi(AppConfig.ORDER_PRICE_UPDATE+id.toString(), data);
-    if(response.statusCode == 200){
+    var response = await ApiService().putApi(
+        AppConfig.ORDER_PRICE_UPDATE + id.toString(), data);
+    if (response.statusCode == 200) {
       getAllOrder();
       getSingleOrder(id.toString());
-      Get.snackbar("Success!", "Order status updated successfully", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.green);
+      Get.snackbar("Success!", "Order status updated successfully",
+          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.green);
     }
     isUpdatingOrderStatus.value = false;
   }
 
 
+  //order list by from date to to date
+  RxBool isGettingExportedOrder = false.obs;
 
+  getExportedOrders(fromDate, toDate) async {
+    exportAllOrderModel.clear();
+    isGettingExportedOrder.value = true;
+    print("url --- ${AppConfig.ORDER_GET +
+        "?from_date=$fromDate&to_date=$toDate"}");
+    var response = await ApiService().getApi(
+        AppConfig.ORDER_GET + "?fromDate=$fromDate&toDate=$toDate");
+    if (response.statusCode == 200) {
+      var data = AllOrderModel.fromJson(jsonDecode(response.body));
+      //add list into export all order model
+      for (var i in data.data!) {
+        exportAllOrderModel.add(i);
+        for (var j in i.products!) {
+          exportTotalProduct.add(j);
+        }
+      }
+      isGettingExportedOrder.value = false;
+    }
+  }
 }
+
+
+
+  //export controller
