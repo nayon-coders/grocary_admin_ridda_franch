@@ -176,6 +176,7 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
 
 
                                 //status
+                                //status
                                 InkWell(
                                   onTap: (){},
                                   child: Align(
@@ -186,11 +187,11 @@ class _DeliveryOrderListState extends State<DeliveryOrderList> {
                                       margin:const EdgeInsets.all(5),
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(100),
-                                          color: Colors.green.withOpacity(0.2),
-                                          border: Border.all(width: 1, color: Colors.green)
+                                          color: controller.getOrderStatusColor(data.orderStatus!).withOpacity(0.2),
+                                          border: Border.all(width: 1, color: controller.getOrderStatusColor(data.orderStatus!))
                                       ),
                                       child: Center(
-                                        child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                                        child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),),
                                       ),
                                     ),
                                   ),

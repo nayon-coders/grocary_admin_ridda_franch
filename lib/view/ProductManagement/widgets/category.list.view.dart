@@ -93,8 +93,42 @@ class CategoryListView extends GetView<CategoryController> {
                                       Obx(() {
                                           return IconButton(
                                               onPressed: () async {
-                                                await controller.deleteMainCategory(
-                                                    data.id.toString());
+                                                Get.defaultDialog(
+                                                    title: "Are You sure?",
+                                                    content: Container(
+                                                      width: 400,
+                                                      padding: const EdgeInsets.all(12.0),
+                                                      child: const Text(
+                                                          "Do you want to delete this category? If you delete the category, all subcategories will be deleted and also all products under this category will be deleted."),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Get.back();
+                                                          },
+                                                          child: const Text(
+                                                            "Cancel",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                          )),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            Get.back();
+                                                            await controller
+                                                                .deleteMainCategory(
+                                                                data.id
+                                                                    .toString());
+
+                                                          },
+                                                          child: const Text(
+                                                            "Delete",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .red),
+                                                          )),
+                                                    ]
+                                                );
                                               },
                                               icon: controller.isDataDeleting.value
                                                   ? CircularProgressIndicator()
@@ -160,7 +194,40 @@ class CategoryListView extends GetView<CategoryController> {
                                           child: Row(
                                             children: [
                                               IconButton(
-                                                  onPressed: () =>controller.deleteSubCategory(subCat.id.toString()),
+                                                  onPressed: () {
+                                                    Get.defaultDialog(
+                                                      title: "Are You sure?",
+                                                      content: const Text(
+                                                          "Do you want to delete this category?"),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                            child: const Text(
+                                                              "Cancel",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                            )),
+                                                        TextButton(
+                                                            onPressed: () async {
+                                                              Get.back();
+                                                              await controller
+                                                                  .deleteSubCategory(
+                                                                  subCat.id
+                                                                      .toString());
+
+                                                            },
+                                                            child: const Text(
+                                                              "Delete",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red),
+                                                            )),
+                                                      ]
+                                                    );
+                                                  },
                                                   icon: Icon(
                                                     Icons.delete,
                                                     color: Colors.red,

@@ -10,6 +10,7 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:minia_web_project/view/OrderManagement/controller/order.management.controller.dart';
+import 'package:minia_web_project/view/ProductManagement/controller/product.controller.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../comman/chats/chatdetailpage.dart';
@@ -29,13 +30,13 @@ class Dashboard extends StatelessWidget {
    Dashboard({super.key});
 
    final OrderManagementController orderManagementController = Get.put(OrderManagementController());
-
+    final ProductController loginController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //   orderManagementController.getAllOrder();
-    // });
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      orderManagementController.getAllOrder();
+    });
     var width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Column(

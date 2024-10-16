@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:minia_web_project/comman/app.input.dart';
 import 'package:minia_web_project/comman/app_button.dart';
+import 'package:minia_web_project/view/AppSetting/controller/setting_controller.dart';
 
 class SettingPages extends StatefulWidget {
   const SettingPages({super.key});
@@ -10,8 +12,7 @@ class SettingPages extends StatefulWidget {
 }
 
 class _SettingPagesState extends State<SettingPages> {
-  final _termsandcondition = TextEditingController();
-  final _aboutus = TextEditingController();
+  SettingControleler _settingControleler = Get.put(SettingControleler());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,16 +28,29 @@ class _SettingPagesState extends State<SettingPages> {
         children: [
           const Text("Terms & Condition",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
           const SizedBox(height: 20,),
-          AppInput(hint: "Terms & Condition", controller: _termsandcondition,maxLine: 6,),
+          AppInput(hint: "Terms & Condition", controller: _settingControleler.terms.value,maxLine: 6,),
           const SizedBox(height:20),
-          AppButton(onClick: (){}, text: "Update"),
-
-          const SizedBox(height: 30,),
+          const Text("Privacy Policy",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
+          const SizedBox(height: 20,),
+          AppInput(hint: "Privacy Policy", controller: _settingControleler.privacy.value,maxLine: 6,),
+          const SizedBox(height:20),
           const Text("About us",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
           const SizedBox(height: 20,),
-          AppInput(hint: "About us", controller: _aboutus,maxLine: 6,),
+          AppInput(hint: "About us", controller:_settingControleler.aboutUs.value,maxLine: 6,),
           const SizedBox(height:20),
-          AppButton(onClick: (){}, text: "Update"),
+          const Text("legal",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
+          const SizedBox(height: 20,),
+          AppInput(hint: "Legal", controller:_settingControleler.legal.value,maxLine: 6,),
+          const SizedBox(height:20),
+          Obx(() {
+              return AppButton(
+                  isLoading: _settingControleler.isGettingPrivacy.value,
+                  onClick: (){
+                    _settingControleler.updatePrivacy();
+
+              }, text: "Update");
+            }
+          ),
 
           const SizedBox(height: 30,),
 

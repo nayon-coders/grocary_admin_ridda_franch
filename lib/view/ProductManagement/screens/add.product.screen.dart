@@ -150,8 +150,9 @@ class _AddNewProductState extends State<AddNewProduct> {
 
                             //short description Dropdown
                             DropDown2(
+
                                 items: ProductJson.descriptionList,
-                              //  value:  _productController.productShortDes.value.text.isNotEmpty ?  _productController.productShortDes.value.text : "",
+                                value:  _productController.productShortDes.value.text.isNotEmpty ?  _productController.productShortDes.value.text : null,
                                 hint: "Conditionnement", onChange: (v){setState(() {
                               _productController.productShortDes.value.text = v!;
                             });}),
@@ -183,7 +184,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                   color: Colors.black),
                             ),
                             const SizedBox(height: 5,),
-                            AppInput(hint: "Unit", controller: _productController.productUnit.value),
+                            AppInput(hint: "Unit", controller: _productController.productUnit.value, textType: TextInputType.number),
                             const SizedBox(
                               height: 10,
                             ),
@@ -214,7 +215,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       DropDown2(
                                           items: ProductJson.productTypeList,
                                           hint: "Choisir",
-                                         // value: _productController.productType.value.isNotEmpty ?  _productController.productType.value.isNotEmpty :  "",
+                                         value: _productController.productType.value.isNotEmpty ?  _productController.productType.value :  null,
                                           onChange: (v){
                                             setState(() {
                                               _productController.productType.value = v!.toString();
@@ -283,10 +284,10 @@ class _AddNewProductState extends State<AddNewProduct> {
                                       DropDown2(
                                           items: ProductJson.allCountry,
                                           hint: "Origin",
-                                         // value: _productController.country.value ?? "",
+                                         value: _productController.country.value.isNotEmpty ?  _productController.country.value :  null,
                                           onChange: (v){
                                             setState(() {
-                                              _productController.country.value = v!;
+                                              _productController.country.value = v!.toString();
                                             });
                                           }),
                                     ],

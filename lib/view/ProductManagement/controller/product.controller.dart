@@ -206,13 +206,14 @@ class ProductController extends GetxController{
     productType.value = selectedSingleProductListModel.value.productType.toString();
     productUnit.value.text = selectedSingleProductListModel.value.unit.toString();
      productDes.value.text = selectedSingleProductListModel.value.longDescription.toString();
-     productShortDes.value.text =selectedSingleProductListModel.value.shortDescription.toString();
+     productShortDes.value.text = selectedSingleProductListModel.value.shortDescription.toString();
     tax.value = selectedSingleProductListModel.value.tax.toString();
     country.value = selectedSingleProductListModel.value.country.toString();
     productPurchasePrice.value.text = selectedSingleProductListModel.value.purchasePrice.toString();
     restaurantPrice.value.text = selectedSingleProductListModel.value.sellingPrice.toString();
     resellerPrice.value.text = selectedSingleProductListModel.value.regularPrice.toString();
     wholesalersPrice.value.text = selectedSingleProductListModel.value.wholePrice.toString();
+    productStock.value.text = selectedSingleProductListModel.value.isStock.toString();
    productDiscountPrice.value.text = selectedSingleProductListModel.value.discountPrice.toString();
    for(var i in selectedSingleProductListModel.value.images!){
      productImages.value.add(i.imageUrl.toString());
@@ -242,6 +243,7 @@ class ProductController extends GetxController{
     productImages.value.clear();
     subCatListName.value.clear();
     subCatListId.value.clear();
+
   }
 
 }

@@ -139,12 +139,14 @@ class _SingleOrdersState extends State<SingleOrders> {
                                 // Ensure the current order status exists in the dropdown items
                                 var orderStatus = controller.singleOrderModel.value.order?.orderStatus;
 
+                                print("orderStatus ---- ${orderStatus}");
+
                                 // List of possible dropdown values
                                 final List<String> statusValues = [
-                                  "Reçue en Attente",
-                                  "En Préparation",
-                                  "Prête pour Dispatch",
-                                  "En cours de Livraison",
+                                  "En Attente",
+                                  "Préparation",
+                                  "Dispatch",
+                                  "Livraison",
                                   "Livré",
                                   "À régler",
                                   "Terminé",
@@ -165,10 +167,10 @@ class _SingleOrdersState extends State<SingleOrders> {
                                     controller.orderStatus.value = value.toString();
                                   },
                                   items: [
-                                    DropdownMenuItem(child: Text("Reçue en Attente"), value: "Reçue en Attente"),
-                                    DropdownMenuItem(child: Text("En Préparation"), value: "En Préparation"),
-                                    DropdownMenuItem(child: Text("Prête pour Dispatch"), value: "Prête pour Dispatch"),
-                                    DropdownMenuItem(child: Text("En cours de Livraison"), value: "En cours de Livraison"),
+                                    DropdownMenuItem(child: Text("Reçue en Attente"), value: "En Attente"),
+                                    DropdownMenuItem(child: Text("En Préparation"), value: "Préparation"),
+                                    DropdownMenuItem(child: Text("Prête pour Dispatch"), value: "Dispatch"),
+                                    DropdownMenuItem(child: Text("En cours de Livraison"), value: "Livraison"),
                                     DropdownMenuItem(child: Text("Livré"), value: "Livré"),
                                     DropdownMenuItem(child: Text("À régler"), value: "À régler"),
                                     DropdownMenuItem(child: Text("Terminé"), value: "Terminé"),

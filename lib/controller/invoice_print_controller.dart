@@ -11,13 +11,13 @@ import '../data/model/single_order_model.dart';
 class InvoicePrintController extends GetxController {
   var isGettingMyProfile = false.obs;
 
+  Rx<SingleOrderModel> singleOrderModel = SingleOrderModel().obs;
+
   @override
   void onInit() {
     isGettingMyProfile.value = true;
     super.onInit();
   }
-
-  Rx<SingleOrderModel> singleOrderModel = SingleOrderModel().obs;
 
   @override
   void onReady() {
@@ -30,7 +30,18 @@ class InvoicePrintController extends GetxController {
     final Uint8List logoImage = await _getImageFromAsset('assets/image/logo.png');
     final font = pw.Font.ttf(await rootBundle.load('assets/fonts/Roboto-Regular.ttf'));
 
-    // Create PDF document
+    // Fetch values dynamically from singleOrderModel
+    final invoiceNumber = singleOrderModel.value.order!.id ?? 'Unknown';
+    final billingDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    final dueDate = DateFormat('dd/MM/yyyy').format(DateTime.parse("${singleOrderModel.value.order!.deliveryDate}") ?? DateTime.now());
+    final companyName = singleOrderModel.value.order!.company ?? 'Unknown';
+    final companyAddress = singleOrderModel.value.order!.userDeliveryAddress!.address ?? 'Unknown';
+    final customerName = singleOrderModel.value.order!.company ?? 'Unknown';
+    final customerAddress = singleOrderModel.value.order!.userDeliveryAddress!.address! ?? 'Unknown';
+
+    // Generate product table data dynamically
+    final products = singleOrderModel.value.order!.products ?? [];
+
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -50,10 +61,10 @@ class InvoicePrintController extends GetxController {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Facture FA2406-0066', style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold, fontSize: 14)),
-                      pw.Text('Date facturation : 20/06/2024', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('Date échéance : 21/06/2024', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('Code client : CU2406-00060', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('Facture $invoiceNumber', style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold, fontSize: 14)),
+                      pw.Text('Date facturation : $billingDate', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('Date échéance : $dueDate', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('Company : $companyName', style: pw.TextStyle(font: font, fontSize: 10)),
                     ],
                   ),
                 ],
@@ -64,73 +75,54 @@ class InvoicePrintController extends GetxController {
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  // Sender Address
+                  // Sender Address (Static or fetched from company profile)
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('WebMotion', style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold, fontSize: 12)),
-                      pw.Text('14 rue de Paris', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('20000 Casablanca', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('Tél.: 0661541003', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('Email: contact@webmotion.ma', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('$companyName', style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold, fontSize: 12)),
+                      pw.Text('${companyAddress}', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('${singleOrderModel.value.order!.userDeliveryAddress!.postCode}, ${singleOrderModel.value.order!.userDeliveryAddress!.city}', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('Tél.: ${singleOrderModel.value.order!.userDeliveryAddress!.phone}', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text('Contact: ${singleOrderModel.value.order!.userDeliveryAddress!.contact}', style: pw.TextStyle(font: font, fontSize: 10)),
                       pw.Text('Web: www.webmotion.ma', style: pw.TextStyle(font: font, fontSize: 10)),
                     ],
                   ),
 
-                  // Receiver Address
+                  // Receiver Address (Dynamic)
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text('Maroc Citrus', style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold, fontSize: 12)),
-                      pw.Text('Immeuble F, projet le Yacht n° 79,', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('Angle bd de la Corniche et rue Abou Waqt', style: pw.TextStyle(font: font, fontSize: 10)),
-                      pw.Text('20000 Casablanca', style: pw.TextStyle(font: font, fontSize: 10)),
+                      pw.Text(customerName, style: pw.TextStyle(font: font, fontWeight: pw.FontWeight.bold, fontSize: 12)),
+                      pw.Text(customerAddress, style: pw.TextStyle(font: font, fontSize: 10)),
                     ],
                   ),
                 ],
               ),
               pw.SizedBox(height: 20),
 
-              // Designation Table (Product Info)
+              // Designation Table (Dynamic Product Info)
               pw.Table.fromTextArray(
-                headers: ['Désignation', 'TVA', 'P.U. HT', 'Qté', 'Total HT'],
+                headers: ['Product Name', 'P.U. HT', 'Qté', 'Total HT'],
                 headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
                 cellPadding: pw.EdgeInsets.all(7),
-                //full height for column content
 
-                data: [
-                  [
-                    'Hébergement d\'un an pour le site maroc citrus\n(Du 25/05/2024 au 25/05/2025)',
-                    '20%',
-                    '600,00',
-                    '1',
-                    '600,00',
-                  ],
-
-                  [
-                    'Hébergement d\'un an pour le site maroc citrus\n(Du 25/05/2024 au 25/05/2025)',
-                    '20%',
-                    '600,00',
-                    '1',
-                    '600,00',
-                  ],
-                  [
-                    'Hébergement d\'un an pour le site maroc citrus\n(Du 25/05/2024 au 25/05/2025)',
-                    '20%',
-                    '600,00',
-                    '1',
-                    '600,00',
-                  ],
-                ],
+                // Dynamically populate product rows
+                data: products.map((product) {
+                  return [
+                    product.name ?? 'Unknown',
+                    product.price ?? 'Unknown',
+                    product.quantity.toString(),
+                    (double.parse("${product.price}") * double.parse("${product.quantity}")).toString(),
+                  ];
+                }).toList(),
               ),
               pw.SizedBox(height: 20),
 
-              // Payment Summary
-              _buildSummaryRow('Total HT', '600,00', font),
-              _buildSummaryRow('Total TVA 20%', '120,00', font),
-              _buildSummaryRow('Total TTC', '720,00', font),
-              _buildSummaryRow('Payé', '720,00', font, isBold: true),
-              _buildSummaryRow('Reste à payer', '0,00', font, isBold: true),
+              // Payment Summary (Dynamic)
+              _buildSummaryRow('Total HT', singleOrderModel.value.order!.subTotal.toString() ?? '0.00', font),
+              _buildSummaryRow('Total TVA 20%', singleOrderModel.value.order!.taxAmount!.toString() ?? '0.00', font),
+              _buildSummaryRow('Total TTC', singleOrderModel.value.order!.total!.toString() ?? '0.00', font),
+              _buildSummaryRow('Payé', singleOrderModel.value.order!.total!.toString() ?? '0.00', font, isBold: true),
               pw.SizedBox(height: 20),
 
               // Footer Information
@@ -165,7 +157,7 @@ class InvoicePrintController extends GetxController {
           pw.Text(label, style: pw.TextStyle(font: font, fontSize: 13, fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.bold)),
           pw.Text(amount, style: pw.TextStyle(font: font, fontSize: 13, fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal)),
         ],
-      )
+      ),
     );
   }
 }

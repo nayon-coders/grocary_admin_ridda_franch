@@ -72,6 +72,19 @@ class AdminRoleController extends GetxController{
   }
 
 
+  //delete admion
+  deleteAdmin(int id)async{
+    var res = await ApiService().deleteApi("${AppConfig.ADMIN_DELETE}$id");
+    if(res.statusCode == 200){
+      getAllAdmin();
+      Get.snackbar("Success!", "Admin deleted successfully!", backgroundColor: Colors.green);
+
+    }else{
+      Get.snackbar("Error!", "Something went wrong. Status: ${res.statusCode}", backgroundColor: Colors.red);
+    }
+  }
+
+
 
   //clear all
   clearAll(){
@@ -81,6 +94,8 @@ class AdminRoleController extends GetxController{
    pass.value.clear();
    roleId.value = "";
   }
+
+
 
 
 }

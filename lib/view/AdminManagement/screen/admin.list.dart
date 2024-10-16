@@ -27,8 +27,8 @@ class AdminList extends StatelessWidget {
               TableHeader(name: "First Name", width: 130),
               TableHeader(name: "Last Name", width: 130),
               TableHeader(name: "Email", width: 200),
-              TableHeader(name: "Permeation ", width: 150),
-              TableHeader(name: "Role", width:100),
+              TableHeader(name: "Role", width:150),
+              TableHeader(name: "Action", width:100),
 
 
 
@@ -45,7 +45,7 @@ class AdminList extends StatelessWidget {
                     var data = controller.allAdminListModel.value.data![index];
 
                       //store data variable
-                      return Container(
+                      return data.roleName == "SuperAdmin" ? Center() : Container(
                         height: 56,
                         margin:const EdgeInsets.only(bottom:5,top: 5),
                         padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
@@ -88,19 +88,9 @@ class AdminList extends StatelessWidget {
                             ),
 
 
-                            //permission
-                            SizedBox(
-                              width: 150,
-                              child: TextButton(
-                                onPressed: (){},
-                                child: Text("See Permissions"),
-                              ),
-                            ),
-
-
                             //Action button
                             Container(
-                              width: 100,
+                              width: 150,
                               child: Container(
                                 width: 80,
                                 height: 30,
@@ -111,13 +101,40 @@ class AdminList extends StatelessWidget {
                                 child: Center(
                                   child: Text("${data.roleName}",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 13
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13
                                     ),
                                   ),
                                 ),
                               ),
+                            ),
+
+                            Container(
+                              width: 100,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                    onPressed: (){
+                                      Get.defaultDialog(
+                                        title: "Delete Admin",
+                                        middleText: "Are you sure to delete this admin?",
+                                        textConfirm: "Yes",
+                                        textCancel: "No",
+                                        confirmTextColor: Colors.white,
+                                        onConfirm: (){
+                                          Get.back();
+                                          controller.deleteAdmin(data.id!);
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(Icons.delete, color: Colors.red,),
+                                  ),
+                                ],
+                              ),
                             )
+
+
 
 
 

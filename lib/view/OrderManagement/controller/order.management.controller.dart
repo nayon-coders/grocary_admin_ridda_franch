@@ -80,11 +80,11 @@ class OrderManagementController extends GetxController {
       allOrderModel.value = allOrderModelFromJson(response.body);
       for (var i in allOrderModel.value.data!) {
         totalOrder.add(i);
-        if (i.orderStatus == "Reçue en Attente") {
+        if (i.orderStatus == "En Attente") {
           totalPendingOrder.add(i);
-        } else if (i.orderStatus == "En Préparation") {
+        } else if (i.orderStatus == "Préparation") {
           totalEnPreparations.add(i);
-        } else if (i.orderStatus == "Prête pour Dispatch") {
+        } else if (i.orderStatus == "Dispatch") {
           //total pending income
           pendingIncom.value += i.total!;
           totalDispastOrder.add(i);
@@ -94,7 +94,7 @@ class OrderManagementController extends GetxController {
           totalReturnOrder.add(i);
         } else if (i.orderStatus == "shipped") {
           totalshippedr.add(i);
-        } else if (i.orderStatus == "En cours de Livraison") {
+        } else if (i.orderStatus == "Livraison") {
           //total upcomming income
           upcommingIncom.value += i.total!; // upcomming income
           totalLivraisonOrder.add(i); // total in delivery order
@@ -106,6 +106,7 @@ class OrderManagementController extends GetxController {
         } else if (i.orderStatus == "Terminé") {
           // calulate total net income
           totalNetIncome.value += i.total!;
+          print("totalNetIncome ---- ${totalNetIncome}");
           totalCompleteOrder.add(i);
         }
       }
@@ -239,6 +240,49 @@ class OrderManagementController extends GetxController {
       isGettingExportedOrder.value = false;
     }
   }
+
+
+
+
+  Color getOrderStatusColor(String status, {bool isFront = true}) {
+    switch (status) {
+      case "En Attente": // Received Pending
+        return Colors.red; // Display on both Front and Back
+
+      case "Préparation": // In Preparation
+        return Colors.pinkAccent; // Display on both Front and Back
+
+      case "Dispatch": // Ready for Dispatch
+        if (!isFront) {
+          return Colors.yellow; // Only display on Back
+        }
+        break; // Not displayed on Front
+
+      case "Livraison": // In Delivery
+        return Colors.cyan; // Display on both Front and Back (Turquoise)
+
+      case "Livré": // Delivered
+      // Important: Trigger invoice creation here if needed
+        return Colors.purpleAccent; // Display on both Front and Back (Fuchsia)
+
+      case "À régler": // To be Paid
+        return Colors.orange; // Display on both Front and Back
+
+      case "Terminé": // Completed
+        return Colors.green; // Display on both Front and Back
+
+      case "Annulé": // Canceled
+        if (!isFront) {
+          return Colors.grey; // Only display on Back
+        }
+        break; // Not displayed on Front
+
+      default:
+        return Colors.transparent; // Default if no match
+    }
+    return Colors.transparent; // For cases where it's not displayed
+  }
+
 }
 
 

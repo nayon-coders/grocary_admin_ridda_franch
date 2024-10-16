@@ -113,7 +113,7 @@ class _AllOrderListState extends State<AllOrderList> {
                   child: Obx(() {
                     if(controller.isGettingData.value){
                       return Center(child: CircularProgressIndicator(),);
-                    }else if(controller.allOrderModel.value.data!.isNotEmpty){
+                    }else if(controller.allOrderModel.value.data != null){
                       //cehck search result is empty or not
                       if(controller.searchResults.isNotEmpty){
                         return ListView.builder(
@@ -142,6 +142,7 @@ class _AllOrderListState extends State<AllOrderList> {
                                   //Delivery Address
                                   TableHeader(name: "${data.userDeliveryAddress!.postCode}, ${data.userDeliveryAddress!.city}, ${data.userDeliveryAddress!.address}", width: 250),
                                   //status
+                                  //status
                                   InkWell(
                                     onTap: (){},
                                     child: Align(
@@ -152,11 +153,11 @@ class _AllOrderListState extends State<AllOrderList> {
                                         margin:const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(100),
-                                            color: Colors.green.withOpacity(0.2),
-                                            border: Border.all(width: 1, color: Colors.green)
+                                            color: controller.getOrderStatusColor(data.orderStatus!).withOpacity(0.2),
+                                            border: Border.all(width: 1, color: controller.getOrderStatusColor(data.orderStatus!))
                                         ),
                                         child: Center(
-                                          child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                                          child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),),
                                         ),
                                       ),
                                     ),
@@ -232,11 +233,11 @@ class _AllOrderListState extends State<AllOrderList> {
                                         margin:const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(100),
-                                            color: Colors.green.withOpacity(0.2),
-                                            border: Border.all(width: 1, color: Colors.green)
+                                            color: controller.getOrderStatusColor(data.orderStatus!).withOpacity(0.2),
+                                            border: Border.all(width: 1, color: controller.getOrderStatusColor(data.orderStatus!))
                                         ),
                                         child: Center(
-                                          child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.green),),
+                                          child: Text("${data.orderStatus}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 13,color: Colors.black),),
                                         ),
                                       ),
                                     ),
@@ -275,8 +276,6 @@ class _AllOrderListState extends State<AllOrderList> {
                           },
                         );
                       }
-
-
                     }else{
                       return Center(child: Text("No Data Found"));
                     }

@@ -318,7 +318,6 @@ class _AllProductsState extends State<AllProducts> {
                   );
                 }
               }
-
             }
 
             }

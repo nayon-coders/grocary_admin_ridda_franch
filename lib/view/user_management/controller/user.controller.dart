@@ -64,9 +64,9 @@ class AppUserController extends GetxController{
       newUserList.value.clear();
       userListModel.value = UserListModel.fromJson(jsonDecode(res.body));
       for(var i in userListModel.value.data!){
-        if(i.status == "active"){
+        if(i.status == "Actif"){
           activeUserList.value.add(i);
-        }else if(i.status == "block"){
+        }else if(i.status == "Blacklist"){
           blockUserList.value.add(i);
         }else{
           newUserList.value.add(i);
@@ -98,6 +98,7 @@ class AppUserController extends GetxController{
   //get single user
   getSingleUser(id)async{
     isLoading.value = true;
+    print("this is single user id --- ${id}");
     var res = await ApiService().getApi(AppConfig.USER_SINGLE+"${id}");
     if(res.statusCode == 200){
       var data = jsonDecode(res.body);
@@ -144,6 +145,45 @@ class AppUserController extends GetxController{
     }
     isUpdating.value = false;
   }
+
+
+  Color getCustomerStatusColor(String status) {
+    switch (status) {
+      case "En Attente": // Pending
+        return Colors.orange; // Pending verification by CP
+
+      case "Actif": // Active
+        return Colors.green; // Validated by CP
+
+      case "Inactif": // Inactive
+        return Colors.red; // Cannot view prices or place orders
+
+      case "Blacklist":
+        return Colors.black; // Blacklisted, restricted from services
+
+      default:
+        return Colors.transparent; // Default if no match
+    }
+  }
+
+
+  // New method to search orders by company name
+  RxList searchResults = [].obs;
+  void searchCustomerByName(String companyName, RxList<UserList> userList) {
+    print("searching for $companyName");
+    if (companyName.isEmpty) {
+      // If the search input is empty, return all orders
+      searchResults.value = userList.value.toList();
+    } else {
+      // Filter the orders based on the company name
+      searchResults.value = userList.value.where((values) =>
+          values.name!.toLowerCase().contains(companyName.toLowerCase()) // Assuming companyName is a field in OrderModel
+      ).toList(); // Convert the Iterable to a List
+    }
+    print("searching for $searchResults");
+    update();
+  }
+
 
 
 

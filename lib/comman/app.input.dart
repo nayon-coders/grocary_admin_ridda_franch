@@ -24,7 +24,7 @@ class AppInput extends StatelessWidget {
   String? Function(String?)? validator;
   final bool readOnly;
   final bool obscureText;
-  final TextInputType?textType;
+  final TextInputType? textType;
   final VoidCallback? onClick;
   final Function(String)? onChanged;
   final int maxLine;
@@ -32,9 +32,11 @@ class AppInput extends StatelessWidget {
   final bool obscure;
 
 
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       onTap: onClick,
       onChanged: onChanged,
       maxLines: maxLine,

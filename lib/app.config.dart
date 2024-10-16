@@ -62,6 +62,9 @@ class AppConfig{
   static const String ORDER_STATUS_UPDATE = "$BASE_URL/order/status/update/";
   static const String ORDER_PRICE_UPDATE = "$BASE_URL/order/update-price/";
 
+  //setting
+  static const String PRIVACY_GET = "$BASE_URL/settings/privacy";
+
 
 
 }

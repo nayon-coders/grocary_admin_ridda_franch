@@ -20,9 +20,16 @@ class _SingleCustomerState extends State<SingleCustomer> {
   //usercontrpller
 
   AppUserController controller = Get.put(AppUserController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
-    controller.getSingleUser(widget.id.toString());
+
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -54,7 +61,7 @@ class _SingleCustomerState extends State<SingleCustomer> {
                       children: [
 
                         //account create date
-                        Text("Account Created Date: ${DateFormat("MMM dd, yyyy  H:m ").format(DateTime.parse("${controller.singleCustomerModel.value.createAt}"))}", style: TextStyle(fontSize: 12),),
+                        Text("Account Created Date: ${controller.singleCustomerModel.value.createAt}", style: TextStyle(fontSize: 12),),
                         SizedBox(height: 10,),
                         //account status
                         Row(
@@ -67,9 +74,9 @@ class _SingleCustomerState extends State<SingleCustomer> {
                                 Container(
                                   padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
                                   decoration: BoxDecoration(
-                                    color: controller.singleCustomerModel.value.status == "active" ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
+                                    color: controller.getCustomerStatusColor(controller.singleCustomerModel.value.status!).withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(width: 1, color:  controller.singleCustomerModel.value.status == "active" ? Colors.green : Colors.red)
+                                    border: Border.all(width: 1, color: controller.getCustomerStatusColor(controller.singleCustomerModel.value.status!))
                                   ),
                                   child: Text(controller.singleCustomerModel.value.status.toString(), style: TextStyle(color: Colors.black, fontSize: 12),),
                                 )

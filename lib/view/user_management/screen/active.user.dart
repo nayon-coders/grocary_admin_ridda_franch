@@ -77,117 +77,251 @@ class _ActiveUserState extends State<ActiveUser> {
               return Center(child: CircularProgressIndicator(),);
             }else{
               return Obx(() {
-                return   controller.activeUserList.value.isEmpty ? Center(child: Text("Empty!"),) :ListView.builder(
-                  //data length
-                  itemCount: controller.activeUserList.value.length,
-                  itemBuilder: (context, index){
+                return   controller.activeUserList.value.isEmpty
+                    ? Center(child: Text("Empty!"),)
+                    : controller.searchResults.value!.isNotEmpty
+                    ? ListView.builder(
+                      //data length
+                      itemCount: controller.searchResults.value.length,
+                      itemBuilder: (context, index){
 
-                    var data =  controller.activeUserList.value[index];
+                        var data =  controller.searchResults.value[index];
 
-                    //store data variable
-                    return Obx(() {
-                      return  Container(
-                        height: 56,
-                        margin:const EdgeInsets.only(bottom:5,top: 5),
-                        padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
-                        decoration: BoxDecoration(
-                          color:index.isEven?Colors.grey.shade200: Colors.grey.shade100,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-
-
-
-                            //Id
-                            SizedBox(
-                              width: 30,
-                              child: Text("${index+1}",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
+                        //store data variable
+                        return Obx(() {
+                          return  Container(
+                            height: 56,
+                            margin:const EdgeInsets.only(bottom:5,top: 5),
+                            padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
+                            decoration: BoxDecoration(
+                              color:index.isEven?Colors.grey.shade200: Colors.grey.shade100,
                             ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
 
 
-                            //first name
-                            //Id
-                            AppTableRow(name: data.name!, width: 70),
-                            AppTableRow(name: data.brand!, width: 100),
-                            AppTableRow(name: data.email!, width: 200),
-                            AppTableRow(name: data.accountPhone!, width: 100),
-                            AppTableRow(name: data.accountType!, width: 100),
 
-                            SizedBox(
-                              width: 60,
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.green.shade200,
-                                    borderRadius: BorderRadius.circular(100)
+                                //Id
+                                SizedBox(
+                                  width: 30,
+                                  child: Text("${index+1}",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
-                                child: Center(
-                                  child: Text("${data.status}"),
+
+
+                                //first name
+                                //Id
+                                AppTableRow(name: data.name!, width: 70),
+                                AppTableRow(name: data.brand!, width: 100),
+                                AppTableRow(name: data.email!, width: 200),
+                                AppTableRow(name: data.accountPhone!, width: 100),
+                                AppTableRow(name: data.accountType!, width: 100),
+
+                                SizedBox(
+                                  width: 60,
+                                  child: Container(
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        color: controller.getCustomerStatusColor(data.status!).withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(100)
+                                    ),
+                                    child: Center(
+                                      child: Text("${data.status}"),
+                                    ),
+                                  ),
                                 ),
-                              ),
+
+                                AppTableRow(name: DateFormat("MMM dd, yyyy").format(DateTime.parse("${"${data.createAt}"}"))!, width: 100),
+
+
+                                //Action button
+                                SizedBox(
+                                    width: 120,
+                                    child: Row(
+                                      children: [
+                                        GlobalVariable.adminProfile.value!.roleName == "Admin" ? Center() : Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: ()async{
+                                                await confirmAlert(
+                                                    context: context,
+                                                    body: "Do you want to Active this user?",
+                                                    onOk: ()async{
+                                                      await controller.updateUserStatus(data.id.toString(), "Actif");
+                                                      Get.back();
+                                                    }
+                                                );
+                                              },
+
+                                              icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.approval,color: Colors.green,)),
+                                        ),
+                                        GlobalVariable.adminProfile.value!.roleName == "Admin" ? Center() :  Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: ()async{
+                                                await confirmAlert(
+                                                    context: context,
+                                                    body: "Do you want to block this user?",
+                                                    onOk: ()async{
+                                                      await controller.updateUserStatus(data.id.toString(), "Blacklist");
+                                                      Get.back();
+                                                    }
+                                                );
+                                              },
+                                              icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.block,color: Colors.black,)),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: ()async{
+                                                controller.getSingleUser( data.id.toString());
+                                                setState(() {
+                                                  isShowSingleCustomer = true;
+                                                  _selectedUserId = data.id;
+
+                                                });
+                                              },
+                                              icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.remove_red_eye,color: Colors.blue,)),
+                                        ),
+
+                                      ],
+                                    )
+                                ),
+
+
+
+
+
+
+
+
+
+
+                              ],
                             ),
+                          );
+                        }
+                        );
+                      },
+                    )
+                    : ListView.builder(
+                      //data length
+                      itemCount: controller.activeUserList.value.length,
+                      itemBuilder: (context, index){
 
-                            AppTableRow(name: DateFormat("MMM dd, yyyy").format(DateTime.parse("${"${data.createAt}"}"))!, width: 100),
+                        var data =  controller.activeUserList.value[index];
 
-
-                            //Action button
-                            SizedBox(
-                                width: 120,
-                                child: Row(
-                                  children: [
-                                   GlobalVariable.adminProfile.value!.roleName == "Admin" ? Center() : Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: IconButton(
-                                          onPressed: ()async{
-                                            await confirmAlert(
-                                                context: context,
-                                                body: "Do you want to Active this user?",
-                                                onOk: ()async{
-                                                  await controller.updateUserStatus(data.id.toString(), "active");
-                                                  Get.back();
-                                                }
-                                            );
-                                          },
-
-                                          icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.approval,color: Colors.green,)),
-                                    ),
-                                    GlobalVariable.adminProfile.value!.roleName == "Admin" ? Center() :  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: IconButton(
-                                          onPressed: ()async{
-                                            await confirmAlert(
-                                                context: context,
-                                                body: "Do you want to block this user?",
-                                                onOk: ()async{
-                                                  await controller.updateUserStatus(data.id.toString(), "block");
-                                                  Get.back();
-                                                }
-                                            );
-                                          },
-                                          icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.block,color: Colors.black,)),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: IconButton(
-                                          onPressed: ()async{
-                                              setState(() {
-                                                _selectedUserId = data.id.toString();
-                                                isShowSingleCustomer = true;
-                                              });
-                                          },
-                                          icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.remove_red_eye,color: Colors.blue,)),
-                                    ),
-
-                                  ],
-                                )
+                        //store data variable
+                        return Obx(() {
+                          return  Container(
+                            height: 56,
+                            margin:const EdgeInsets.only(bottom:5,top: 5),
+                            padding:const EdgeInsets.only(left: 15, right: 15,bottom: 5,top: 5),
+                            decoration: BoxDecoration(
+                              color:index.isEven?Colors.grey.shade200: Colors.grey.shade100,
                             ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+
+
+                                //Id
+                                SizedBox(
+                                  width: 30,
+                                  child: Text("${index+1}",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+
+
+                                //first name
+                                //Id
+                                AppTableRow(name: data.name!, width: 70),
+                                AppTableRow(name: data.brand!, width: 100),
+                                AppTableRow(name: data.email!, width: 200),
+                                AppTableRow(name: data.accountPhone!, width: 100),
+                                AppTableRow(name: data.accountType!, width: 100),
+
+                                SizedBox(
+                                  width: 60,
+                                  child: Container(
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        color: controller.getCustomerStatusColor(data.status!).withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(100)
+                                    ),
+                                    child: Center(
+                                      child: Text("${data.status}"),
+                                    ),
+                                  ),
+                                ),
+
+                                AppTableRow(name: DateFormat("MMM dd, yyyy").format(DateTime.parse("${"${data.createAt}"}"))!, width: 100),
+
+
+                                //Action button
+                                SizedBox(
+                                    width: 120,
+                                    child: Row(
+                                      children: [
+                                       GlobalVariable.adminProfile.value!.roleName == "Admin" ? Center() : Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: ()async{
+                                                await confirmAlert(
+                                                    context: context,
+                                                    body: "Do you want to Active this user?",
+                                                    onOk: ()async{
+                                                      await controller.updateUserStatus(data.id.toString(), "Actif");
+                                                      Get.back();
+                                                    }
+                                                );
+                                              },
+
+                                              icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.approval,color: Colors.green,)),
+                                        ),
+                                        GlobalVariable.adminProfile.value!.roleName == "Admin" ? Center() :  Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: ()async{
+                                                await confirmAlert(
+                                                    context: context,
+                                                    body: "Do you want to block this user?",
+                                                    onOk: ()async{
+                                                      await controller.updateUserStatus(data.id.toString(), "Blacklist");
+                                                      Get.back();
+                                                    }
+                                                );
+                                              },
+                                              icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.block,color: Colors.black,)),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: ()async{
+                                                controller.getSingleUser( data.id.toString());
+                                                setState(() {
+                                                  isShowSingleCustomer = true;
+                                                  _selectedUserId = data.id;
+                                                });
+                                              },
+                                              icon: controller.isUpdating.value ? Center(child: CircularProgressIndicator(),) : Icon(Icons.remove_red_eye,color: Colors.blue,)),
+                                        ),
+
+                                      ],
+                                    )
+                                ),
 
 
 
@@ -198,13 +332,13 @@ class _ActiveUserState extends State<ActiveUser> {
 
 
 
-                          ],
-                        ),
-                      );
-                    }
+                              ],
+                            ),
+                          );
+                        }
+                        );
+                      },
                     );
-                  },
-                );
               }
               );
             }
@@ -213,6 +347,9 @@ class _ActiveUserState extends State<ActiveUser> {
           ),
         ) ,
         onSearch: (){},
+        onChanged: (value){
+          controller.searchCustomerByName(value, controller.activeUserList);
+        },
         searchController: _search,
 
       ),
